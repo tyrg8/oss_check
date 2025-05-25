@@ -1,0 +1,14 @@
+tittle:llamacpp:fuzz_grammar: Stack-overflow in llama_grammar_advance_stack
+status:Verified
+type:Bug
+commit_url:https://github.com/ggerganov/llama.cpp/commit/01aec4a6310ab0160483196db0e726d78d4c94b6
+commit_url_new:https://github.com/ggerganov/llama.cpp/commit/https://github.com/ggerganov/llama.cpp/commit/01aec4a6310ab0160483196db0e726d78d4c94b6
+module:llamacpp
+target:fuzz_grammar
+have 1 changed files:['jump get_diff!']
+==================================================
+error running command: python infra/helper.py reproduce llamacpp fuzz_grammar build/out/llamacpp/testcase/testcase_42537428
+ERROR:__main__:fuzz_grammar does not seem to exist. Please run build_fuzzers first.
+
+==================================================
+PoC Triggered: YES

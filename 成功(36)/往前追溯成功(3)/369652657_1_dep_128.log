@@ -1,0 +1,66 @@
+tittle:libultrahdr:ultrahdr_enc_fuzzer: Use-of-uninitialized-value in ultrahdr::uhdr_gainmap_metadata_frac::encodeGainmapMetadata
+status:Verified
+type:Vulnerability
+commit_url:https://github.com/google/libultrahdr/commit/2188c35c95aee9c66ede526ab1c8187a3bc82416
+commit_url_new:https://github.com/google/libultrahdr/commit/5e7cedab7afec3dc8c8fdaa81f99a13e4850b8a0
+module:libultrahdr
+target:ultrahdr_enc_fuzzer
+have 1 changed files:['jump get_diff!']
+==================================================
+error running command: python infra/helper.py reproduce libultrahdr ultrahdr_enc_fuzzer build/out/libultrahdr/testcase/testcase_369652657
++ FUZZER=ultrahdr_enc_fuzzer
++ shift
++ '[' '!' -v TESTCASE ']'
++ TESTCASE=/testcase
++ '[' '!' -f /testcase ']'
++ export RUN_FUZZER_MODE=interactive
++ RUN_FUZZER_MODE=interactive
++ export FUZZING_ENGINE=libfuzzer
++ FUZZING_ENGINE=libfuzzer
++ export SKIP_SEED_CORPUS=1
++ SKIP_SEED_CORPUS=1
++ run_fuzzer ultrahdr_enc_fuzzer -runs=100 /testcase
+vm.mmap_rnd_bits = 28
+/out/ultrahdr_enc_fuzzer -rss_limit_mb=2560 -timeout=25 -runs=100 /testcase < /dev/null
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 3853786935
+INFO: Loaded 1 modules   (20835 inline 8-bit counters): 20835 [0x558df20b5d20, 0x558df20bae83), 
+INFO: Loaded 1 PC tables (20835 PCs): 20835 [0x558df20bae88,0x558df210c4b8), 
+/out/ultrahdr_enc_fuzzer: Running 1 inputs 100 time(s) each.
+Running: /testcase
+ALARM: working on the last Unit for 25 seconds
+       and the timeout value is 25 (use -timeout=N to change)
+==13== ERROR: libFuzzer: timeout after 25 seconds
+    #0 0x558df1a61409 in __sanitizer_print_stack_trace /src/llvm-project/compiler-rt/lib/msan/msan.cpp:734:3
+    #1 0x558df19deb58 in fuzzer::PrintStackTrace() /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerUtil.cpp:210:5
+    #2 0x558df19c1e67 in fuzzer::Fuzzer::AlarmCallback() /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:304:5
+    #3 0x558df1abd493 in SignalAction(int, void*, void*) /src/llvm-project/compiler-rt/lib/msan/msan_interceptors.cpp:1140:3
+    #4 0x7f15865e841f  (/lib/x86_64-linux-gnu/libpthread.so.0+0x1441f) (BuildId: 5cfb896dd40f90aa8c6c8bb856004d1f5cfe293c)
+    #5 0x558df1b1f3a1 in operator()<unsigned long, unsigned long> /usr/local/bin/../include/c++/v1/__algorithm/comp.h:41:18
+    #6 0x558df1b1f3a1 in min<unsigned long, std::__1::__less<void, void> > /usr/local/bin/../include/c++/v1/__algorithm/min.h:30:10
+    #7 0x558df1b1f3a1 in min<unsigned long> /usr/local/bin/../include/c++/v1/__algorithm/min.h:36:10
+    #8 0x558df1b1f3a1 in ultrahdr::sampleMap(ultrahdr::jpegr_uncompressed_struct*, unsigned long, unsigned long, unsigned long, ultrahdr::ShepardsIDW&) /src/libultrahdr/lib/src/gainmapmath.cpp:723:13
+    #9 0x558df1b05aa4 in operator() /src/libultrahdr/lib/src/jpegr.cpp:1115:20
+    #10 0x558df1b05aa4 in __invoke<(lambda at /src/libultrahdr/lib/src/jpegr.cpp:1092:39) &> /usr/local/bin/../include/c++/v1/__type_traits/invoke.h:344:25
+    #11 0x558df1b05aa4 in __call<(lambda at /src/libultrahdr/lib/src/jpegr.cpp:1092:39) &> /usr/local/bin/../include/c++/v1/__type_traits/invoke.h:419:5
+    #12 0x558df1b05aa4 in operator() /usr/local/bin/../include/c++/v1/__functional/function.h:169:12
+    #13 0x558df1b05aa4 in std::__1::__function::__func<ultrahdr::JpegR::applyGainMap(ultrahdr::jpegr_uncompressed_struct*, ultrahdr::jpegr_uncompressed_struct*, ultrahdr::ultrahdr_metadata_struct*, ultrahdr::ultrahdr_output_format, float, ultrahdr::jpegr_uncompressed_struct*)::$_0, std::__1::allocator<ultrahdr::JpegR::applyGainMap(ultrahdr::jpegr_uncompressed_struct*, ultrahdr::jpegr_uncompressed_struct*, ultrahdr::ultrahdr_metadata_struct*, ultrahdr::ultrahdr_output_format, float, ultrahdr::jpegr_uncompressed_struct*)::$_0>, void ()>::operator()() /usr/local/bin/../include/c++/v1/__functional/function.h:311:10
+    #14 0x558df1af1bd1 in operator() /usr/local/bin/../include/c++/v1/__functional/function.h:428:12
+    #15 0x558df1af1bd1 in operator() /usr/local/bin/../include/c++/v1/__functional/function.h:981:10
+    #16 0x558df1af1bd1 in ultrahdr::JpegR::applyGainMap(ultrahdr::jpegr_uncompressed_struct*, ultrahdr::jpegr_uncompressed_struct*, ultrahdr::ultrahdr_metadata_struct*, ultrahdr::ultrahdr_output_format, float, ultrahdr::jpegr_uncompressed_struct*) /src/libultrahdr/lib/src/jpegr.cpp:1175:3
+    #17 0x558df1af0be0 in ultrahdr::JpegR::decodeJPEGR(ultrahdr::jpegr_compressed_struct*, ultrahdr::jpegr_uncompressed_struct*, float, ultrahdr::jpegr_exif_struct*, ultrahdr::ultrahdr_output_format, ultrahdr::jpegr_uncompressed_struct*, ultrahdr::ultrahdr_metadata_struct*) /src/libultrahdr/lib/src/jpegr.cpp:780:3
+    #18 0x558df1ad4555 in UltraHdrEncFuzzer::process() /src/libultrahdr/fuzzer/ultrahdr_enc_fuzzer.cpp:300:26
+    #19 0x558df1ad63cc in LLVMFuzzerTestOneInput /src/libultrahdr/fuzzer/ultrahdr_enc_fuzzer.cpp:317:14
+    #20 0x558df19c3400 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:614:13
+    #21 0x558df19ae675 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:327:6
+    #22 0x558df19b410f in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
+    #23 0x558df19df3b2 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
+    #24 0x7f15863bd082 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x24082) (BuildId: 0323ab4806bee6f846d9ad4bccfc29afdca49a58)
+    #25 0x558df19a685d in _start (/out/ultrahdr_enc_fuzzer+0xdb85d)
+
+DEDUP_TOKEN: __sanitizer_print_stack_trace--fuzzer::PrintStackTrace()--fuzzer::Fuzzer::AlarmCallback()
+SUMMARY: libFuzzer: timeout
+INFO:__main__:Running: docker run --privileged --shm-size=2g --platform linux/amd64 --rm -i -e HELPER=True -e ARCHITECTURE=x86_64 -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/libultrahdr:/out -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/libultrahdr/testcase/testcase_369652657:/testcase -t gcr.io/oss-fuzz-base/base-runner reproduce ultrahdr_enc_fuzzer -runs=100.
+
+==================================================
+PoC Triggered: YES

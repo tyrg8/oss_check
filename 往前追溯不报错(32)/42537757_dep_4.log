@@ -1,0 +1,38 @@
+tittle:opensc:fuzz_pkcs15init: Heap-buffer-overflow in openpgp_generate_key_rsa
+status:Verified
+type:Vulnerability
+commit_url:https://github.com/OpenSC/OpenSC/commit/092eea05df975a8680b354d90c8c0aae90ed8de1
+commit_url_new:https://github.com/OpenSC/OpenSC/commit/865cb43a8c81b1a8a0a44f0d439b0d50494084a5
+module:opensc
+target:fuzz_pkcs15init
+have 1 changed files:['jump get_diff!']
+==================================================
++ FUZZER=fuzz_pkcs15init
++ shift
++ '[' '!' -v TESTCASE ']'
++ TESTCASE=/testcase
++ '[' '!' -f /testcase ']'
++ export RUN_FUZZER_MODE=interactive
++ RUN_FUZZER_MODE=interactive
++ export FUZZING_ENGINE=libfuzzer
++ FUZZING_ENGINE=libfuzzer
++ export SKIP_SEED_CORPUS=1
++ SKIP_SEED_CORPUS=1
++ run_fuzzer fuzz_pkcs15init -runs=100 /testcase
+vm.mmap_rnd_bits = 28
+/out/fuzz_pkcs15init -rss_limit_mb=2560 -timeout=25 -runs=100 /testcase < /dev/null
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 2275619759
+INFO: Loaded 1 modules   (40784 inline 8-bit counters): 40784 [0x5647798256f0, 0x56477982f640), 
+INFO: Loaded 1 PC tables (40784 PCs): 40784 [0x56477982f640,0x5647798ceb40), 
+/out/fuzz_pkcs15init: Running 1 inputs 100 time(s) each.
+Running: /testcase
+Executed /testcase in 3857 ms
+***
+*** NOTE: fuzzing was not performed, you have only
+***       executed the target code on a fixed set of inputs.
+***
+INFO:__main__:Running: docker run --privileged --shm-size=2g --platform linux/amd64 --rm -i -e HELPER=True -e ARCHITECTURE=x86_64 -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/opensc:/out -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/opensc/testcase/testcase_42537757:/testcase -t gcr.io/oss-fuzz-base/base-runner reproduce fuzz_pkcs15init -runs=100.
+
+==================================================
+PoC Triggered: NO

@@ -1,0 +1,38 @@
+tittle:icu:number_format_fuzzer: Stack-overflow in icu_76::NFRule::doParse
+status:Verified
+type:Bug
+commit_url:https://github.com/unicode-org/icu/commit/f062f52c123f436eb1142115ba2e4e7b65a4ac8f
+commit_url_new:https://github.com/unicode-org/icu/commit/9270216cb73faa128a9d77a14175fc4a164747ad
+module:icu
+target:number_format_fuzzer
+have 1 changed files:['jump get_diff!']
+==================================================
++ FUZZER=number_format_fuzzer
++ shift
++ '[' '!' -v TESTCASE ']'
++ TESTCASE=/testcase
++ '[' '!' -f /testcase ']'
++ export RUN_FUZZER_MODE=interactive
++ RUN_FUZZER_MODE=interactive
++ export FUZZING_ENGINE=libfuzzer
++ FUZZING_ENGINE=libfuzzer
++ export SKIP_SEED_CORPUS=1
++ SKIP_SEED_CORPUS=1
++ run_fuzzer number_format_fuzzer -runs=100 /testcase
+vm.mmap_rnd_bits = 28
+/out/number_format_fuzzer -rss_limit_mb=2560 -timeout=25 -runs=100 /testcase < /dev/null
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 1836496238
+INFO: Loaded 1 modules   (76398 inline 8-bit counters): 76398 [0x56311f0e96a0, 0x56311f0fc10e), 
+INFO: Loaded 1 PC tables (76398 PCs): 76398 [0x56311f0fc110,0x56311f2267f0), 
+/out/number_format_fuzzer: Running 1 inputs 100 time(s) each.
+Running: /testcase
+Executed /testcase in 434 ms
+***
+*** NOTE: fuzzing was not performed, you have only
+***       executed the target code on a fixed set of inputs.
+***
+INFO:__main__:Running: docker run --privileged --shm-size=2g --platform linux/amd64 --rm -i -e HELPER=True -e ARCHITECTURE=x86_64 -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/icu:/out -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/icu/testcase/testcase_42538343:/testcase -t gcr.io/oss-fuzz-base/base-runner reproduce number_format_fuzzer -runs=100.
+
+==================================================
+PoC Triggered: NO

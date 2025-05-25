@@ -1,0 +1,14 @@
+tittle:snakeyaml:SecureYamlFuzzer: Uncaught exception in java.base/jdk.internal.util.Preconditions.outOfBounds
+status:Verified
+type:Bug
+commit_url:null
+commit_url_new:null/commit/null
+module:snakeyaml
+target:SecureYamlFuzzer
+have 1 changed files:['jump get_diff!']
+==================================================
+error running command: python infra/helper.py reproduce snakeyaml SecureYamlFuzzer build/out/snakeyaml/testcase/testcase_42538459
+ERROR:__main__:SecureYamlFuzzer does not seem to exist. Please run build_fuzzers first.
+
+==================================================
+PoC Triggered: YES

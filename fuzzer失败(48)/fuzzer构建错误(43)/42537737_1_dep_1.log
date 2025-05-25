@@ -1,0 +1,14 @@
+tittle:poco:xml_parser_fuzzer: Stack-overflow in Poco::XML::AbstractContainerNode::~AbstractContainerNode
+status:Verified
+type:Bug
+commit_url:https://github.com/pocoproject/poco/commit/1eebd46c0487356fc3c89991ddc160ab97a6f001
+commit_url_new:https://github.com/pocoproject/poco/commit/https://github.com/pocoproject/poco/commit/1eebd46c0487356fc3c89991ddc160ab97a6f001
+module:poco
+target:xml_parser_fuzzer
+have 1 changed files:['jump get_diff!']
+==================================================
+error running command: python infra/helper.py reproduce poco xml_parser_fuzzer build/out/poco/testcase/testcase_42537737
+ERROR:__main__:xml_parser_fuzzer does not seem to exist. Please run build_fuzzers first.
+
+==================================================
+PoC Triggered: YES

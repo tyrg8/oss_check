@@ -1,0 +1,38 @@
+tittle:kyverno:FuzzValidatePolicy: Timeout in FuzzValidatePolicy
+status:Verified
+type:Bug
+commit_url:https://github.com/kyverno/kyverno/commit/e21da49d5b937e93fa4de638113d466112b61247
+commit_url_new:https://github.com/kyverno/kyverno/commit/16bd2d4ef4ac6db22db7bc64170dd78415052aeb
+module:kyverno
+target:FuzzValidatePolicy
+have 1 changed files:['jump get_diff!']
+==================================================
++ FUZZER=FuzzValidatePolicy
++ shift
++ '[' '!' -v TESTCASE ']'
++ TESTCASE=/testcase
++ '[' '!' -f /testcase ']'
++ export RUN_FUZZER_MODE=interactive
++ RUN_FUZZER_MODE=interactive
++ export FUZZING_ENGINE=libfuzzer
++ FUZZING_ENGINE=libfuzzer
++ export SKIP_SEED_CORPUS=1
++ SKIP_SEED_CORPUS=1
++ run_fuzzer FuzzValidatePolicy -runs=100 /testcase
+vm.mmap_rnd_bits = 28
+/out/FuzzValidatePolicy -rss_limit_mb=2560 -timeout=25 -runs=100 /testcase < /dev/null
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 2093016119
+INFO: Loaded 1 modules   (625219 inline 8-bit counters): 625219 [0x55e0859e7eb0, 0x55e085a808f3), 
+INFO: Loaded 1 PC tables (625219 PCs): 625219 [0x10c000100000,0x10c000a8a430), 
+/out/FuzzValidatePolicy: Running 1 inputs 100 time(s) each.
+Running: /testcase
+Executed /testcase in 9606 ms
+***
+*** NOTE: fuzzing was not performed, you have only
+***       executed the target code on a fixed set of inputs.
+***
+INFO:__main__:Running: docker run --privileged --shm-size=2g --platform linux/amd64 --rm -i -e HELPER=True -e ARCHITECTURE=x86_64 -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/kyverno:/out -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/kyverno/testcase/testcase_42537638:/testcase -t gcr.io/oss-fuzz-base/base-runner reproduce FuzzValidatePolicy -runs=100.
+
+==================================================
+PoC Triggered: NO

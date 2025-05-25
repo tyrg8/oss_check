@@ -1,0 +1,14 @@
+tittle:envoy:utility_fuzz_test: Abrt in __cxxabiv1::failed_throw
+status:Verified
+type:Bug
+commit_url:https://github.com/envoyproxy/envoy/commit/93099c6e9ea24eeb22a41d477d821beab164777f
+commit_url_new:https://github.com/envoyproxy/envoy/commit/c778169c66af0ebc15398129ac0790fc08942439
+module:envoy
+target:utility_fuzz_test
+have 1 changed files:['jump get_diff!']
+==================================================
+error running command: python infra/helper.py reproduce envoy utility_fuzz_test build/out/envoy/testcase/testcase_42538165
+ERROR:__main__:utility_fuzz_test does not seem to exist. Please run build_fuzzers first.
+
+==================================================
+PoC Triggered: YES

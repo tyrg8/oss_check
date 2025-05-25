@@ -1,0 +1,14 @@
+tittle:open62541:fuzz_base64_decode: Use-of-uninitialized-value in fuzz_base64_decode.cc
+status:Verified
+type:Vulnerability
+commit_url:https://github.com/open62541/open62541/commit/2b92f625b097632e4c1edeaeed7a1a4f55117f92
+commit_url_new:https://github.com/open62541/open62541/commit/e115deba76b47aa0360aa3f367b39eacd7feaa66
+module:open62541
+target:fuzz_base64_decode
+have 1 changed files:['jump get_diff!']
+==================================================
+error running command: python infra/helper.py reproduce open62541 fuzz_base64_decode build/out/open62541/testcase/testcase_42537739
+ERROR:__main__:fuzz_base64_decode does not seem to exist. Please run build_fuzzers first.
+
+==================================================
+PoC Triggered: YES

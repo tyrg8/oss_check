@@ -1,0 +1,14 @@
+tittle:llamacpp:fuzz_tokenizer_aquila: Timeout in fuzz_tokenizer_aquila
+status:Verified
+type:Bug
+commit_url:https://github.com/ggerganov/llama.cpp/commit/0832de723695ab400316a6c49b9f712380e3a731
+commit_url_new:https://github.com/ggerganov/llama.cpp/commit/https://github.com/ggerganov/llama.cpp/commit/0832de723695ab400316a6c49b9f712380e3a731
+module:llamacpp
+target:fuzz_tokenizer_aquila
+have 1 changed files:['jump get_diff!']
+==================================================
+error running command: python infra/helper.py reproduce llamacpp fuzz_tokenizer_aquila build/out/llamacpp/testcase/testcase_42537516
+ERROR:__main__:fuzz_tokenizer_aquila does not seem to exist. Please run build_fuzzers first.
+
+==================================================
+PoC Triggered: YES

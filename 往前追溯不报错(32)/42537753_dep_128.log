@@ -1,0 +1,46 @@
+tittle:rtpproxy:fuzz_command_parser: Crash in rtpp_shutdown
+status:Verified
+type:Vulnerability
+commit_url:https://github.com/sippy/rtpproxy/commit/2bcdd705bbf591cc15a6111dc00a40021648d94a
+commit_url_new:https://github.com/sippy/rtpproxy/commit/a585fd048363990e9f9163c769e5998e3263a337
+module:rtpproxy
+target:fuzz_command_parser
+have 1 changed files:['jump get_diff!']
+==================================================
++ FUZZER=fuzz_command_parser
++ shift
++ '[' '!' -v TESTCASE ']'
++ TESTCASE=/testcase
++ '[' '!' -f /testcase ']'
++ export RUN_FUZZER_MODE=interactive
++ RUN_FUZZER_MODE=interactive
++ export FUZZING_ENGINE=libfuzzer
++ FUZZING_ENGINE=libfuzzer
++ export SKIP_SEED_CORPUS=1
++ SKIP_SEED_CORPUS=1
++ run_fuzzer fuzz_command_parser -runs=100 /testcase
+vm.mmap_rnd_bits = 28
+/out/fuzz_command_parser -rss_limit_mb=2560 -timeout=25 -runs=100 /testcase -detect_leaks=0 -max_len=8192 -print_final_stats=1 -dict=fuzz_command_parser.dict < /dev/null
+fuzz_command_parser: WARNING!!! Running this program as superuser is strongly not recommended, as it may pose serious security threat to your system. Use -u option to run as an unprivileged user or -F to surpress this warning.
+Dictionary: 76 entries
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 816006203
+INFO: Loaded 1 modules   (8089 inline 8-bit counters): 8089 [0x56494d768748, 0x56494d76a6e1), 
+INFO: Loaded 1 PC tables (8089 PCs): 8089 [0x56494d76a6e8,0x56494d78a078), 
+/out/fuzz_command_parser: Running 1 inputs 100 time(s) each.
+Running: /testcase
+Executed /testcase in 6 ms
+***
+*** NOTE: fuzzing was not performed, you have only
+***       executed the target code on a fixed set of inputs.
+***
+stat::number_of_executed_units: 100
+stat::average_exec_per_sec:     0
+stat::new_units_added:          0
+stat::slowest_unit_time_sec:    0
+stat::peak_rss_mb:              39
+Cleaning up before exit...
+INFO:__main__:Running: docker run --privileged --shm-size=2g --platform linux/amd64 --rm -i -e HELPER=True -e ARCHITECTURE=x86_64 -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/rtpproxy:/out -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/rtpproxy/testcase/testcase_42537753:/testcase -t gcr.io/oss-fuzz-base/base-runner reproduce fuzz_command_parser -runs=100.
+
+==================================================
+PoC Triggered: NO

@@ -1,0 +1,127 @@
+tittle:joni:RegexMatcherFuzzer: Security exception in org.joni.Parser.parseCharClass
+status:Verified
+type:Vulnerability
+commit_url:https://github.com/jruby/joni/commit/03ac9a5afdb9fcf8cb7815fdae9da60825a266bd
+commit_url_new:https://github.com/jruby/joni/commit/https://github.com/jruby/joni/commit/03ac9a5afdb9fcf8cb7815fdae9da60825a266bd
+module:joni
+target:RegexMatcherFuzzer
+have 1 changed files:['jump get_diff!']
+==================================================
++ FUZZER=RegexMatcherFuzzer
++ shift
++ '[' '!' -v TESTCASE ']'
++ TESTCASE=/testcase
++ '[' '!' -f /testcase ']'
++ export RUN_FUZZER_MODE=interactive
++ RUN_FUZZER_MODE=interactive
++ export FUZZING_ENGINE=libfuzzer
++ FUZZING_ENGINE=libfuzzer
++ export SKIP_SEED_CORPUS=1
++ SKIP_SEED_CORPUS=1
++ run_fuzzer RegexMatcherFuzzer -runs=100 /testcase
+vm.mmap_rnd_bits = 28
+/out/RegexMatcherFuzzer -rss_limit_mb=2560 -timeout=25 -runs=100 /testcase < /dev/null
+OpenJDK 64-Bit Server VM warning: Option CriticalJNINatives was deprecated in version 16.0 and will likely be removed in a future release.
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+INFO: Loaded 268 hooks from com.code_intelligence.jazzer.runtime.TraceCmpHooks
+INFO: Loaded 5 hooks from com.code_intelligence.jazzer.runtime.TraceDivHooks
+INFO: Loaded 2 hooks from com.code_intelligence.jazzer.runtime.TraceIndirHooks
+INFO: Loaded 4 hooks from com.code_intelligence.jazzer.runtime.NativeLibHooks
+INFO: Loaded 2 hooks from com.code_intelligence.jazzer.sanitizers.ClojureLangHooks
+INFO: Loaded 5 hooks from com.code_intelligence.jazzer.sanitizers.Deserialization
+INFO: Loaded 5 hooks from com.code_intelligence.jazzer.sanitizers.ExpressionLanguageInjection
+INFO: Loaded 70 hooks from com.code_intelligence.jazzer.sanitizers.LdapInjection
+INFO: Loaded 46 hooks from com.code_intelligence.jazzer.sanitizers.NamingContextLookup
+INFO: Loaded 1 hooks from com.code_intelligence.jazzer.sanitizers.OsCommandInjection
+INFO: Loaded 48 hooks from com.code_intelligence.jazzer.sanitizers.ReflectiveCall
+INFO: Loaded 8 hooks from com.code_intelligence.jazzer.sanitizers.RegexInjection
+INFO: Loaded 16 hooks from com.code_intelligence.jazzer.sanitizers.RegexRoadblocks
+INFO: Loaded 12 hooks from com.code_intelligence.jazzer.sanitizers.ScriptEngineInjection
+INFO: Loaded 3 hooks from com.code_intelligence.jazzer.sanitizers.ServerSideRequestForgery
+INFO: Loaded 19 hooks from com.code_intelligence.jazzer.sanitizers.SqlInjection
+INFO: Loaded 6 hooks from com.code_intelligence.jazzer.sanitizers.XPathInjection
+INFO: Instrumented RegexMatcherFuzzer (took 162 ms, size +23%)
+INFO: Instrumented org.joni.exception.SyntaxException (took 6 ms, size +21%)
+INFO: Instrumented org.joni.exception.JOniException (took 6 ms, size +21%)
+INFO: Instrumented org.joni.exception.InternalException (took 6 ms, size +20%)
+INFO: using inputs from: /testcase
+INFO: found LLVMFuzzerCustomMutator (0x7ff1f62a1a00). Disabling -len_control by default.
+INFO: libFuzzer ignores flags that start with '--'
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 3236424643
+INFO: Loaded 1 modules   (512 inline 8-bit counters): 512 [0x7ff1f60b8010, 0x7ff1f60b8210), 
+INFO: Loaded 1 PC tables (512 PCs): 512 [0x55ee22b314e0,0x55ee22b334e0), 
+jazzer: Running 1 inputs 100 time(s) each.
+Running: /testcase
+INFO: Instrumented org.joni.Regex (took 86 ms, size +14%)
+INFO: Instrumented org.jcodings.Encoding (took 76 ms, size +18%)
+INFO: Instrumented org.jcodings.specific.ASCIIEncoding (took 14 ms, size +24%)
+INFO: Instrumented org.jcodings.SingleByteEncoding (took 29 ms, size +10%)
+INFO: Instrumented org.jcodings.AbstractEncoding (took 32 ms, size +22%)
+INFO: Instrumented org.joni.exception.ValueException (took 8 ms, size +38%)
+INFO: Instrumented org.jcodings.specific.UTF8Encoding (took 43 ms, size +2%)
+INFO: New number of coverage counters: 1024
+INFO: Instrumented org.jcodings.specific.BaseUTF8Encoding (took 13 ms, size +23%)
+INFO: Instrumented org.jcodings.unicode.UnicodeEncoding (took 27 ms, size +22%)
+INFO: Instrumented org.jcodings.MultiByteEncoding (took 27 ms, size +22%)
+INFO: Instrumented org.jcodings.exception.InternalException (took 6 ms, size +13%)
+INFO: Instrumented org.jcodings.exception.JCodingsException (took 4 ms, size +40%)
+INFO: Instrumented org.jcodings.exception.EncodingException (took 7 ms, size +8%)
+INFO: Instrumented org.jcodings.exception.CharacterPropertyException (took 10 ms, size +9%)
+INFO: Instrumented org.jcodings.util.BytesHash (took 18 ms, size +17%)
+INFO: Instrumented org.jcodings.util.Hash (took 10 ms, size +12%)
+INFO: Instrumented org.jcodings.util.Hash$HashEntry (took 8 ms, size +8%)
+INFO: Instrumented org.jcodings.util.BytesHash$BytesHashEntry (took 7 ms, size +17%)
+INFO: New number of coverage counters: 2048
+INFO: Instrumented org.joni.Syntax (took 62 ms, size +9%)
+INFO: Instrumented org.joni.constants.SyntaxProperties (took 2 ms, size +0%)
+INFO: Instrumented org.joni.Syntax$MetaCharTable (took 2 ms, size +14%)
+INFO: Instrumented org.joni.WarnCallback (took 1 ms, size +22%)
+INFO: Instrumented org.joni.WarnCallback$1 (took 2 ms, size +16%)
+INFO: Instrumented org.joni.WarnCallback$2 (took 2 ms, size +20%)
+INFO: New number of coverage counters: 4096
+INFO: Instrumented org.joni.Analyser (took 102 ms, size +32%)
+INFO: Instrumented org.joni.Parser (took 96 ms, size +26%)
+INFO: Instrumented org.joni.Lexer (took 64 ms, size +40%)
+INFO: Instrumented org.joni.ScannerSupport (took 20 ms, size +21%)
+INFO: Instrumented org.joni.exception.ErrorMessages (took 2 ms, size +0%)
+INFO: Instrumented org.jcodings.exception.ErrorMessages (took 2 ms, size +0%)
+INFO: Instrumented org.jcodings.IntHolder (took 2 ms, size +32%)
+INFO: Instrumented org.joni.ast.Node (took 8 ms, size +25%)
+INFO: Instrumented org.joni.constants.internal.NodeType (took 1 ms, size +0%)
+INFO: Instrumented org.joni.ast.StringNode (took 24 ms, size +17%)
+INFO: Instrumented org.joni.constants.internal.StringType (took 1 ms, size +0%)
+INFO: Instrumented org.joni.ast.AnchorNode (took 5 ms, size +27%)
+INFO: New number of coverage counters: 8192
+INFO: Instrumented org.joni.ast.CClassNode (took 22 ms, size +29%)
+INFO: Instrumented org.joni.ast.AnyCharNode (took 1 ms, size +9%)
+INFO: Instrumented org.joni.ast.ListNode (took 6 ms, size +7%)
+INFO: Instrumented org.joni.ast.EncloseNode (took 26 ms, size +12%)
+INFO: Instrumented org.joni.constants.internal.EncloseType (took 0 ms, size +0%)
+INFO: Instrumented org.joni.ast.StateNode (took 18 ms, size +23%)
+INFO: Instrumented org.joni.constants.internal.NodeStatus (took 1 ms, size +0%)
+INFO: Instrumented org.joni.ast.CTypeNode (took 3 ms, size +7%)
+INFO: Instrumented org.jcodings.ApplyAllCaseFoldFunction (took 0 ms, size +0%)
+INFO: Instrumented org.joni.ast.QuantifierNode (took 25 ms, size +15%)
+INFO: Instrumented org.joni.ast.BackRefNode (took 22 ms, size +11%)
+INFO: Instrumented org.joni.ast.CallNode (took 21 ms, size +6%)
+INFO: Instrumented org.joni.Token (took 50 ms, size +18%)
+INFO: Instrumented org.joni.ScanEnvironment (took 10 ms, size +18%)
+INFO: Instrumented org.joni.constants.internal.TokenType (took 5 ms, size +11%)
+INFO: Instrumented org.joni.Option (took 9 ms, size +30%)
+INFO: Instrumented org.joni.Parser$1 (took 3 ms, size +20%)
+INFO: Instrumented org.jcodings.ObjPtr (took 2 ms, size +14%)
+INFO: Instrumented org.joni.ast.CClassNode$CCStateArg (took 4 ms, size +14%)
+INFO: Instrumented org.joni.BitSet (took 10 ms, size +25%)
+INFO: Instrumented org.joni.ast.CClassNode$CCSTATE (took 2 ms, size +11%)
+INFO: Instrumented org.joni.ast.CClassNode$CCVALTYPE (took 2 ms, size +11%)
+INFO: Instrumented org.joni.ast.CClassNode$1 (took 2 ms, size +15%)
+Executed /testcase in 1252 ms
+***
+*** NOTE: fuzzing was not performed, you have only
+***       executed the target code on a fixed set of inputs.
+***
+INFO:__main__:Running: docker run --privileged --shm-size=2g --platform linux/amd64 --rm -i -e HELPER=True -e ARCHITECTURE=x86_64 -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/joni:/out -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/joni/testcase/testcase_42538560:/testcase -t gcr.io/oss-fuzz-base/base-runner reproduce RegexMatcherFuzzer -runs=100.
+
+==================================================
+PoC Triggered: NO

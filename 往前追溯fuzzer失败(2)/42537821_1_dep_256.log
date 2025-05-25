@@ -1,0 +1,14 @@
+tittle:htslib:hts_open_fuzzer: Null-dereference READ in hopen_preload
+status:Verified
+type:Bug
+commit_url:https://github.com/samtools/htslib/commit/2140d03e964563e9539295a337852bbb75b7ec92
+commit_url_new:https://github.com/samtools/htslib/commit/9e1ffd856614fcfc0bb3b89501600827cc8705e7
+module:htslib
+target:hts_open_fuzzer
+have 1 changed files:['jump get_diff!']
+==================================================
+error running command: python infra/helper.py reproduce htslib hts_open_fuzzer build/out/htslib/testcase/testcase_42537821
+ERROR:__main__:hts_open_fuzzer does not seem to exist. Please run build_fuzzers first.
+
+==================================================
+PoC Triggered: YES

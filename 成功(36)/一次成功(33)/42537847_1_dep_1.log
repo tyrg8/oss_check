@@ -1,0 +1,543 @@
+tittle:boost:boost_regex_fuzzer: Stack-overflow with empty stacktrace
+status:Verified
+type:Bug
+commit_url:https://github.com/boostorg/boost/commit/4b0104780b125ab3454920d9ee49bf40dfb33684
+commit_url_new:https://github.com/boostorg/boost/commit/65c1319bb92fe7a9a4abd588eff5818d9c2bccf9
+module:boost
+target:boost_regex_fuzzer
+have 1 changed files:['jump get_diff!']
+==================================================
+error running command: python infra/helper.py reproduce boost boost_regex_fuzzer build/out/boost/testcase/testcase_42537847
++ FUZZER=boost_regex_fuzzer
++ shift
++ '[' '!' -v TESTCASE ']'
++ TESTCASE=/testcase
++ '[' '!' -f /testcase ']'
++ export RUN_FUZZER_MODE=interactive
++ RUN_FUZZER_MODE=interactive
++ export FUZZING_ENGINE=libfuzzer
++ FUZZING_ENGINE=libfuzzer
++ export SKIP_SEED_CORPUS=1
++ SKIP_SEED_CORPUS=1
++ run_fuzzer boost_regex_fuzzer -runs=100 /testcase
+vm.mmap_rnd_bits = 28
+/out/boost_regex_fuzzer -rss_limit_mb=2560 -timeout=25 -runs=100 /testcase < /dev/null
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 3301165777
+INFO: Loaded 1 modules   (15993 inline 8-bit counters): 15993 [0x55dd44508af0, 0x55dd4450c969), 
+INFO: Loaded 1 PC tables (15993 PCs): 15993 [0x55dd4450c970,0x55dd4454b100), 
+/out/boost_regex_fuzzer: Running 1 inputs 100 time(s) each.
+Running: /testcase
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+[1m[31m==14==ERROR: AddressSanitizer: stack-overflow on address 0x7ffe16057df8 (pc 0x55dd442832bc bp 0x7ffe16058640 sp 0x7ffe16057e00 T0)
+[1m[0mSCARINESS: 10 (stack-overflow)
+    #0 0x55dd442832bc in __sanitizer_annotate_contiguous_container /src/llvm-project/compiler-rt/lib/asan/asan_poisoning.cpp
+    #1 0x55dd4430e358 in __annotate_contiguous_container /usr/local/bin/../include/c++/v1/vector:843:7
+    #2 0x55dd4430e358 in __annotate_delete /usr/local/bin/../include/c++/v1/vector:856:5
+    #3 0x55dd4430e358 in operator() /usr/local/bin/../include/c++/v1/vector:491:16
+    #4 0x55dd4430e358 in ~vector /usr/local/bin/../include/c++/v1/vector:501:67
+    #5 0x55dd4430e358 in ~match_results /src/boost/./boost/regex/v5/match_results.hpp:90:21
+    #6 0x55dd4430e358 in ~recursion_info /src/boost/./boost/regex/v5/perl_matcher.hpp:331:8
+    #7 0x55dd4430e358 in destroy /usr/local/bin/../include/c++/v1/__memory/allocator.h:176:87
+    #8 0x55dd4430e358 in destroy<boost::re_detail_500::recursion_info<boost::match_results<std::__1::__wrap_iter<const char *>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<const char *> > > > >, void> /usr/local/bin/../include/c++/v1/__memory/allocator_traits.h:311:9
+    #9 0x55dd4430e358 in std::__1::vector<boost::re_detail_500::recursion_info<boost::match_results<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>>>, std::__1::allocator<boost::re_detail_500::recursion_info<boost::match_results<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>>>>>::__base_destruct_at_end[abi:ne180100](boost::re_detail_500::recursion_info<boost::match_results<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>>>*) /usr/local/bin/../include/c++/v1/vector:926:7
+    #10 0x55dd4432c636 in __destruct_at_end /usr/local/bin/../include/c++/v1/vector:816:5
+    #11 0x55dd4432c636 in pop_back /usr/local/bin/../include/c++/v1/vector:1522:9
+    #12 0x55dd4432c636 in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_recursion_pop(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1799:23
+    #13 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #14 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #15 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #16 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #17 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #18 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #19 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #20 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #21 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #22 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #23 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #24 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #25 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #26 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #27 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #28 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #29 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #30 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #31 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #32 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #33 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #34 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #35 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #36 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #37 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #38 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #39 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #40 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #41 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #42 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #43 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #44 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #45 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #46 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #47 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #48 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #49 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #50 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #51 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #52 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #53 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #54 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #55 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #56 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #57 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #58 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #59 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #60 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #61 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #62 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #63 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #64 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #65 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #66 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #67 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #68 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #69 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #70 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #71 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #72 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #73 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #74 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #75 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #76 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #77 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #78 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #79 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #80 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #81 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #82 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #83 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #84 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #85 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #86 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #87 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #88 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #89 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #90 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #91 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #92 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #93 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #94 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #95 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #96 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #97 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #98 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #99 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #100 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #101 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #102 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #103 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #104 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #105 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #106 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #107 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #108 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #109 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #110 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #111 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #112 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #113 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #114 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #115 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #116 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #117 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #118 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #119 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #120 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #121 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #122 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #123 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #124 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #125 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #126 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #127 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #128 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #129 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #130 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #131 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #132 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #133 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #134 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #135 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #136 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #137 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #138 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #139 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #140 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #141 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #142 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #143 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #144 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #145 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #146 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #147 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #148 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #149 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #150 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #151 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #152 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #153 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #154 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #155 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #156 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #157 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #158 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #159 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #160 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #161 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #162 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #163 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #164 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #165 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #166 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #167 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #168 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #169 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #170 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #171 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #172 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #173 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #174 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #175 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #176 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #177 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #178 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #179 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #180 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #181 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #182 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #183 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #184 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #185 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #186 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #187 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #188 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #189 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #190 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #191 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #192 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #193 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #194 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #195 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #196 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #197 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #198 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #199 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #200 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #201 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #202 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #203 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #204 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #205 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #206 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #207 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #208 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #209 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #210 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #211 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #212 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #213 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #214 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #215 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #216 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #217 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #218 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #219 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #220 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #221 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #222 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #223 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #224 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #225 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #226 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #227 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #228 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #229 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #230 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #231 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #232 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #233 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #234 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #235 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #236 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #237 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #238 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #239 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #240 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #241 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #242 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #243 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #244 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #245 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #246 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #247 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #248 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #249 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #250 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #251 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #252 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #253 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #254 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #255 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #256 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #257 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #258 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #259 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #260 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #261 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #262 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #263 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #264 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #265 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #266 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #267 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #268 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #269 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #270 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #271 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #272 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #273 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #274 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #275 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #276 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #277 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #278 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #279 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #280 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #281 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #282 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #283 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #284 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #285 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #286 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #287 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #288 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #289 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #290 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #291 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #292 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #293 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #294 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #295 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #296 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #297 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #298 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #299 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #300 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #301 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #302 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #303 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #304 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #305 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #306 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #307 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #308 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #309 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #310 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #311 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #312 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #313 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #314 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #315 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #316 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #317 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #318 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #319 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #320 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #321 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #322 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #323 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #324 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #325 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #326 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #327 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #328 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #329 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #330 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #331 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #332 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #333 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #334 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #335 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #336 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #337 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #338 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #339 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #340 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #341 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #342 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #343 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #344 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #345 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #346 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #347 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #348 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #349 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #350 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #351 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #352 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #353 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #354 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #355 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #356 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #357 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #358 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #359 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #360 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #361 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #362 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #363 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #364 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #365 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #366 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #367 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #368 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #369 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #370 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #371 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #372 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #373 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #374 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #375 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #376 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #377 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #378 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #379 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #380 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #381 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #382 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #383 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #384 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #385 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #386 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #387 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #388 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #389 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #390 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #391 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #392 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #393 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #394 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #395 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #396 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #397 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #398 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #399 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #400 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #401 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #402 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #403 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #404 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #405 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #406 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #407 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #408 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #409 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #410 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #411 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #412 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #413 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #414 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #415 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #416 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #417 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #418 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #419 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #420 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #421 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #422 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #423 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #424 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #425 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #426 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #427 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #428 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #429 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #430 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #431 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #432 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #433 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #434 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #435 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #436 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #437 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #438 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #439 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #440 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #441 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #442 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #443 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #444 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #445 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #446 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #447 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #448 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #449 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #450 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #451 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #452 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #453 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #454 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #455 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #456 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #457 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #458 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #459 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #460 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #461 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #462 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #463 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #464 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #465 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #466 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #467 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #468 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #469 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #470 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #471 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #472 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #473 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #474 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #475 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #476 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #477 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #478 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #479 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #480 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #481 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #482 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #483 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #484 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #485 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #486 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #487 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #488 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #489 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #490 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #491 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #492 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #493 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #494 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #495 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #496 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #497 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #498 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+    #499 0x55dd4432c93d in unwind /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1260:14
+    #500 0x55dd4432c93d in boost::re_detail_500::perl_matcher<std::__1::__wrap_iter<char const*>, std::__1::allocator<boost::sub_match<std::__1::__wrap_iter<char const*>>>, boost::regex_traits<char, boost::cpp_regex_traits<char>>>::unwind_commit(bool) /src/boost/./boost/regex/v5/perl_matcher_non_recursive.hpp:1825:10
+
+DEDUP_TOKEN: __sanitizer_annotate_contiguous_container--__annotate_contiguous_container--__annotate_delete
+SUMMARY: AddressSanitizer: stack-overflow /src/boost/./boost/regex/v5/match_results.hpp:90:21 in ~match_results
+==14==ABORTING
+INFO:__main__:Running: docker run --privileged --shm-size=2g --platform linux/amd64 --rm -i -e HELPER=True -e ARCHITECTURE=x86_64 -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/boost:/out -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/boost/testcase/testcase_42537847:/testcase -t gcr.io/oss-fuzz-base/base-runner reproduce boost_regex_fuzzer -runs=100.
+
+==================================================
+PoC Triggered: YES

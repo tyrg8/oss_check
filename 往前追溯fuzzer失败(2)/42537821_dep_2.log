@@ -1,0 +1,38 @@
+tittle:htslib:hts_open_fuzzer: Null-dereference READ in hopen_preload
+status:Verified
+type:Bug
+commit_url:https://github.com/samtools/htslib/commit/2140d03e964563e9539295a337852bbb75b7ec92
+commit_url_new:https://github.com/samtools/htslib/commit/9e1ffd856614fcfc0bb3b89501600827cc8705e7
+module:htslib
+target:hts_open_fuzzer
+have 1 changed files:['jump get_diff!']
+==================================================
++ FUZZER=hts_open_fuzzer
++ shift
++ '[' '!' -v TESTCASE ']'
++ TESTCASE=/testcase
++ '[' '!' -f /testcase ']'
++ export RUN_FUZZER_MODE=interactive
++ RUN_FUZZER_MODE=interactive
++ export FUZZING_ENGINE=libfuzzer
++ FUZZING_ENGINE=libfuzzer
++ export SKIP_SEED_CORPUS=1
++ SKIP_SEED_CORPUS=1
++ run_fuzzer hts_open_fuzzer -runs=100 /testcase
+vm.mmap_rnd_bits = 28
+/out/hts_open_fuzzer -rss_limit_mb=2560 -timeout=25 -runs=100 /testcase < /dev/null
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 3717710623
+INFO: Loaded 1 modules   (33292 inline 8-bit counters): 33292 [0x561643746e10, 0x56164374f01c), 
+INFO: Loaded 1 PC tables (33292 PCs): 33292 [0x56164374f020,0x5616437d10e0), 
+/out/hts_open_fuzzer: Running 1 inputs 100 time(s) each.
+Running: /testcase
+Executed /testcase in 16 ms
+***
+*** NOTE: fuzzing was not performed, you have only
+***       executed the target code on a fixed set of inputs.
+***
+INFO:__main__:Running: docker run --privileged --shm-size=2g --platform linux/amd64 --rm -i -e HELPER=True -e ARCHITECTURE=x86_64 -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/htslib:/out -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/htslib/testcase/testcase_42537821:/testcase -t gcr.io/oss-fuzz-base/base-runner reproduce hts_open_fuzzer -runs=100.
+
+==================================================
+PoC Triggered: NO

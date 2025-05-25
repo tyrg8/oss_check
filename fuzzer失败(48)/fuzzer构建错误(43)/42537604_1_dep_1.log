@@ -1,0 +1,14 @@
+tittle:jackson-dataformats-binary:IonParserFuzzer: Uncaught exception in com.amazon.ion.impl.IonReaderContinuableCoreBinary.readTimestamp_1_0
+status:Verified
+type:Bug
+commit_url:https://github.com/FasterXML/jackson-dataformats-binary/commit/de8c970c552e18e254a0c26790dd43d4d1ef6779
+commit_url_new:https://github.com/FasterXML/jackson-dataformats-binary/commit/53e2c9d9342e12bb213a060c4399f1bbc82a19ca
+module:jackson-dataformats-binary
+target:IonParserFuzzer
+have 1 changed files:['jump get_diff!']
+==================================================
+error running command: python infra/helper.py reproduce jackson-dataformats-binary IonParserFuzzer build/out/jackson-dataformats-binary/testcase/testcase_42537604
+ERROR:__main__:IonParserFuzzer does not seem to exist. Please run build_fuzzers first.
+
+==================================================
+PoC Triggered: YES

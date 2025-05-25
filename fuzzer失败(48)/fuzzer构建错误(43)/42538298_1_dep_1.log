@@ -1,0 +1,14 @@
+tittle:connectedhomeip:fuzz-chip-all-clusters-app: Abrt in chip::IntrusiveListBase::~IntrusiveListBase
+status:Verified
+type:Bug
+commit_url:https://github.com/project-chip/connectedhomeip/commit/2cf028b7d54be514547ccd37ee1077ad634b6d07
+commit_url_new:https://github.com/project-chip/connectedhomeip/commit/3d1d6e7f85e05a4d8da6c8785ad40652d3c93abe
+module:connectedhomeip
+target:fuzz-chip-all-clusters-app
+have 1 changed files:['jump get_diff!']
+==================================================
+error running command: python infra/helper.py reproduce connectedhomeip fuzz-chip-all-clusters-app build/out/connectedhomeip/testcase/testcase_42538298
+ERROR:__main__:fuzz-chip-all-clusters-app does not seem to exist. Please run build_fuzzers first.
+
+==================================================
+PoC Triggered: YES

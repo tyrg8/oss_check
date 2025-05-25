@@ -1,0 +1,38 @@
+tittle:openexr:openexr_exrcorecheck_fuzzer: Crash in internal_exr_validate_shared_attrs
+status:Verified
+type:Vulnerability
+commit_url:https://github.com/AcademySoftwareFoundation/openexr/commit/5e35d02a9df2a969f2c8a844e16b4fb84578eaae
+commit_url_new:https://github.com/AcademySoftwareFoundation/openexr/commit/75da6b80983c1a778e0434ddb7f417908c94cdac
+module:openexr
+target:openexr_exrcorecheck_fuzzer
+have 1 changed files:['jump get_diff!']
+==================================================
++ FUZZER=openexr_exrcorecheck_fuzzer
++ shift
++ '[' '!' -v TESTCASE ']'
++ TESTCASE=/testcase
++ '[' '!' -f /testcase ']'
++ export RUN_FUZZER_MODE=interactive
++ RUN_FUZZER_MODE=interactive
++ export FUZZING_ENGINE=libfuzzer
++ FUZZING_ENGINE=libfuzzer
++ export SKIP_SEED_CORPUS=1
++ SKIP_SEED_CORPUS=1
++ run_fuzzer openexr_exrcorecheck_fuzzer -runs=100 /testcase
+vm.mmap_rnd_bits = 28
+/out/openexr_exrcorecheck_fuzzer -rss_limit_mb=2560 -timeout=25 -runs=100 /testcase < /dev/null
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 2639010636
+INFO: Loaded 1 modules   (59966 inline 8-bit counters): 59966 [0x55d73fe52530, 0x55d73fe60f6e), 
+INFO: Loaded 1 PC tables (59966 PCs): 59966 [0x55d73fe60f70,0x55d73ff4b350), 
+/out/openexr_exrcorecheck_fuzzer: Running 1 inputs 100 time(s) each.
+Running: /testcase
+Executed /testcase in 5 ms
+***
+*** NOTE: fuzzing was not performed, you have only
+***       executed the target code on a fixed set of inputs.
+***
+INFO:__main__:Running: docker run --privileged --shm-size=2g --platform linux/amd64 --rm -i -e HELPER=True -e ARCHITECTURE=x86_64 -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/openexr:/out -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/openexr/testcase/testcase_42538425:/testcase -t gcr.io/oss-fuzz-base/base-runner reproduce openexr_exrcorecheck_fuzzer -runs=100.
+
+==================================================
+PoC Triggered: NO

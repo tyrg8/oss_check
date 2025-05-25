@@ -1,0 +1,14 @@
+tittle:llamacpp:fuzz_tokenizer_bpe: Timeout in fuzz_tokenizer_bpe
+status:Verified
+type:Bug
+commit_url:https://github.com/ggerganov/llama.cpp/commit/4c676c85e59ef8f771f3a129e6eb217552139231
+commit_url_new:https://github.com/ggerganov/llama.cpp/commit/https://github.com/ggerganov/llama.cpp/commit/4c676c85e59ef8f771f3a129e6eb217552139231
+module:llamacpp
+target:fuzz_tokenizer_bpe
+have 1 changed files:['jump get_diff!']
+==================================================
+error running command: python infra/helper.py reproduce llamacpp fuzz_tokenizer_bpe build/out/llamacpp/testcase/testcase_42537495
+ERROR:__main__:fuzz_tokenizer_bpe does not seem to exist. Please run build_fuzzers first.
+
+==================================================
+PoC Triggered: YES

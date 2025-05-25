@@ -1,0 +1,38 @@
+tittle:opensc:fuzz_pkcs15init: Heap-buffer-overflow in pgp_calculate_and_store_fingerprint
+status:Verified
+type:Vulnerability
+commit_url:https://github.com/OpenSC/OpenSC/commit/f39c9d2da5170ac60de8ffd105040c9694dab11a
+commit_url_new:https://github.com/OpenSC/OpenSC/commit/7c19a920d7c94efa3695967b61d6981900503218
+module:opensc
+target:fuzz_pkcs15init
+have 1 changed files:['jump get_diff!']
+==================================================
++ FUZZER=fuzz_pkcs15init
++ shift
++ '[' '!' -v TESTCASE ']'
++ TESTCASE=/testcase
++ '[' '!' -f /testcase ']'
++ export RUN_FUZZER_MODE=interactive
++ RUN_FUZZER_MODE=interactive
++ export FUZZING_ENGINE=libfuzzer
++ FUZZING_ENGINE=libfuzzer
++ export SKIP_SEED_CORPUS=1
++ SKIP_SEED_CORPUS=1
++ run_fuzzer fuzz_pkcs15init -runs=100 /testcase
+vm.mmap_rnd_bits = 28
+/out/fuzz_pkcs15init -rss_limit_mb=2560 -timeout=25 -runs=100 /testcase < /dev/null
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 561561925
+INFO: Loaded 1 modules   (40700 inline 8-bit counters): 40700 [0x560ddf8d64f0, 0x560ddf8e03ec), 
+INFO: Loaded 1 PC tables (40700 PCs): 40700 [0x560ddf8e03f0,0x560ddf97f3b0), 
+/out/fuzz_pkcs15init: Running 1 inputs 100 time(s) each.
+Running: /testcase
+Executed /testcase in 1058 ms
+***
+*** NOTE: fuzzing was not performed, you have only
+***       executed the target code on a fixed set of inputs.
+***
+INFO:__main__:Running: docker run --privileged --shm-size=2g --platform linux/amd64 --rm -i -e HELPER=True -e ARCHITECTURE=x86_64 -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/opensc:/out -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/opensc/testcase/testcase_42537670:/testcase -t gcr.io/oss-fuzz-base/base-runner reproduce fuzz_pkcs15init -runs=100.
+
+==================================================
+PoC Triggered: NO

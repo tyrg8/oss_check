@@ -1,0 +1,14 @@
+tittle:lima:FuzzInspect: Timeout in FuzzInspect
+status:Verified
+type:Bug
+commit_url:https://github.com/lima-vm/lima/commit/e3eff00bc6c473b8e449425946c12b34794ced40
+commit_url_new:https://github.com/lima-vm/lima/commit/495db7a0e705196adecf04ec30c8bcdb370326e3
+module:lima
+target:FuzzInspect
+have 1 changed files:['jump get_diff!']
+==================================================
+error running command: python infra/helper.py reproduce lima FuzzInspect build/out/lima/testcase/testcase_42537603
+ERROR:__main__:FuzzInspect does not seem to exist. Please run build_fuzzers first.
+
+==================================================
+PoC Triggered: YES

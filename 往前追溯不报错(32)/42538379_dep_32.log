@@ -1,0 +1,38 @@
+tittle:vlc:vlc-demux-dec-libfuzzer: Invalid-bool-value in module_need
+status:Verified
+type:Bug
+commit_url:https://github.com/videolan/vlc/commit/02c95ad3816366ea2a4da4a599ba7e53545ef4e6
+commit_url_new:https://github.com/videolan/vlc/commit/d4f5bd58b94daf98575ca091c195c678f34ee004
+module:vlc
+target:vlc-demux-dec-libfuzzer
+have 1 changed files:['jump get_diff!']
+==================================================
++ FUZZER=vlc-demux-dec-libfuzzer
++ shift
++ '[' '!' -v TESTCASE ']'
++ TESTCASE=/testcase
++ '[' '!' -f /testcase ']'
++ export RUN_FUZZER_MODE=interactive
++ RUN_FUZZER_MODE=interactive
++ export FUZZING_ENGINE=libfuzzer
++ FUZZING_ENGINE=libfuzzer
++ export SKIP_SEED_CORPUS=1
++ SKIP_SEED_CORPUS=1
++ run_fuzzer vlc-demux-dec-libfuzzer -runs=100 /testcase
+vm.mmap_rnd_bits = 28
+/out/vlc-demux-dec-libfuzzer -rss_limit_mb=2560 -timeout=25 -runs=100 /testcase < /dev/null
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 1741650500
+INFO: Loaded 1 modules   (90276 inline 8-bit counters): 90276 [0x557ad56d38d0, 0x557ad56e9974), 
+INFO: Loaded 1 PC tables (90276 PCs): 90276 [0x557ad56e9978,0x557ad584a3b8), 
+/out/vlc-demux-dec-libfuzzer: Running 1 inputs 100 time(s) each.
+Running: /testcase
+Executed /testcase in 12 ms
+***
+*** NOTE: fuzzing was not performed, you have only
+***       executed the target code on a fixed set of inputs.
+***
+INFO:__main__:Running: docker run --privileged --shm-size=2g --platform linux/amd64 --rm -i -e HELPER=True -e ARCHITECTURE=x86_64 -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/vlc:/out -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/vlc/testcase/testcase_42538379:/testcase -t gcr.io/oss-fuzz-base/base-runner reproduce vlc-demux-dec-libfuzzer -runs=100.
+
+==================================================
+PoC Triggered: NO

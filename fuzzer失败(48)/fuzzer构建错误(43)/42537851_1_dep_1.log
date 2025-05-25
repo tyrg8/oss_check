@@ -1,0 +1,14 @@
+tittle:haproxy:fuzz_cfg_parser: Heap-buffer-overflow in fgets_from_mem
+status:Verified
+type:Vulnerability
+commit_url:https://github.com/haproxy/haproxy/commit/8f1fd96d17588fb571959901bd20d4239b1a96af
+commit_url_new:https://github.com/haproxy/haproxy/commit/75944e266e08687f308dcad42a695ac8d1e03bc4
+module:haproxy
+target:fuzz_cfg_parser
+have 1 changed files:['jump get_diff!']
+==================================================
+error running command: python infra/helper.py reproduce haproxy fuzz_cfg_parser build/out/haproxy/testcase/testcase_42537851
+ERROR:__main__:fuzz_cfg_parser does not seem to exist. Please run build_fuzzers first.
+
+==================================================
+PoC Triggered: YES

@@ -1,0 +1,38 @@
+tittle:libucl:ucl_add_string_fuzzer: Abrt in ucl_object_dtor_free
+status:Verified
+type:Bug
+commit_url:https://github.com/vstakhov/libucl/commit/97e58db41142b81c4bf603edd2fefcf39dbe8253
+commit_url_new:https://github.com/vstakhov/libucl/commit/08c7789d3729f2a4046f595c891f9b59e4debc01
+module:libucl
+target:ucl_add_string_fuzzer
+have 1 changed files:['jump get_diff!']
+==================================================
++ FUZZER=ucl_add_string_fuzzer
++ shift
++ '[' '!' -v TESTCASE ']'
++ TESTCASE=/testcase
++ '[' '!' -f /testcase ']'
++ export RUN_FUZZER_MODE=interactive
++ RUN_FUZZER_MODE=interactive
++ export FUZZING_ENGINE=libfuzzer
++ FUZZING_ENGINE=libfuzzer
++ export SKIP_SEED_CORPUS=1
++ SKIP_SEED_CORPUS=1
++ run_fuzzer ucl_add_string_fuzzer -runs=100 /testcase
+vm.mmap_rnd_bits = 28
+/out/ucl_add_string_fuzzer -rss_limit_mb=2560 -timeout=25 -runs=100 /testcase -detect_leaks=0 < /dev/null
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 55980705
+INFO: Loaded 1 modules   (5204 inline 8-bit counters): 5204 [0x55b134a56af8, 0x55b134a57f4c), 
+INFO: Loaded 1 PC tables (5204 PCs): 5204 [0x55b134a57f50,0x55b134a6c490), 
+/out/ucl_add_string_fuzzer: Running 1 inputs 100 time(s) each.
+Running: /testcase
+Executed /testcase in 2186 ms
+***
+*** NOTE: fuzzing was not performed, you have only
+***       executed the target code on a fixed set of inputs.
+***
+INFO:__main__:Running: docker run --privileged --shm-size=2g --platform linux/amd64 --rm -i -e HELPER=True -e ARCHITECTURE=x86_64 -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/libucl:/out -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/libucl/testcase/testcase_42538436:/testcase -t gcr.io/oss-fuzz-base/base-runner reproduce ucl_add_string_fuzzer -runs=100.
+
+==================================================
+PoC Triggered: NO

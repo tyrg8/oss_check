@@ -1,0 +1,38 @@
+tittle:php:php-fuzz-tracing-jit: ASSERT: !object->properties || object->properties == &zend_empty_array
+status:Verified
+type:Bug
+commit_url:https://github.com/php/php-src/commit/7edb9a07d750a92ceea9371588f10ff2f05df40f
+commit_url_new:https://github.com/php/php-src/commit/5ed1659039ecd3644ac13a4ab890c11eb077b09e
+module:php
+target:php-fuzz-tracing-jit
+have 1 changed files:['jump get_diff!']
+==================================================
++ FUZZER=php-fuzz-tracing-jit
++ shift
++ '[' '!' -v TESTCASE ']'
++ TESTCASE=/testcase
++ '[' '!' -f /testcase ']'
++ export RUN_FUZZER_MODE=interactive
++ RUN_FUZZER_MODE=interactive
++ export FUZZING_ENGINE=libfuzzer
++ FUZZING_ENGINE=libfuzzer
++ export SKIP_SEED_CORPUS=1
++ SKIP_SEED_CORPUS=1
++ run_fuzzer php-fuzz-tracing-jit -runs=100 /testcase
+vm.mmap_rnd_bits = 28
+/out/php-fuzz-tracing-jit -rss_limit_mb=2560 -timeout=25 -runs=100 /testcase < /dev/null
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 394615995
+INFO: Loaded 2 modules   (196149 inline 8-bit counters): 151807 [0x55756441e620, 0x55756444371f), 44342 [0x7ffb9fb40820, 0x7ffb9fb4b556), 
+INFO: Loaded 2 PC tables (196149 PCs): 151807 [0x557564443720,0x557564694710), 44342 [0x7ffb9fb4b558,0x7ffb9fbf88b8), 
+/out/php-fuzz-tracing-jit: Running 1 inputs 100 time(s) each.
+Running: /testcase
+Executed /testcase in 387 ms
+***
+*** NOTE: fuzzing was not performed, you have only
+***       executed the target code on a fixed set of inputs.
+***
+INFO:__main__:Running: docker run --privileged --shm-size=2g --platform linux/amd64 --rm -i -e HELPER=True -e ARCHITECTURE=x86_64 -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/php:/out -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/php/testcase/testcase_368512279:/testcase -t gcr.io/oss-fuzz-base/base-runner reproduce php-fuzz-tracing-jit -runs=100.
+
+==================================================
+PoC Triggered: NO

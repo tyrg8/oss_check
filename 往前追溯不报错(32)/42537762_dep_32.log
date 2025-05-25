@@ -1,0 +1,38 @@
+tittle:systemd:fuzz-nspawn-settings: Direct-leak in config_parse_path
+status:Verified
+type:Bug
+commit_url:https://github.com/systemd/systemd/commit/af1a6db58fde8f64edcf7d27e1f3b636c999934c
+commit_url_new:https://github.com/systemd/systemd/commit/4fde35f27ef1762de572ad26fe1a97ecd9915515
+module:systemd
+target:fuzz-nspawn-settings
+have 1 changed files:['jump get_diff!']
+==================================================
++ FUZZER=fuzz-nspawn-settings
++ shift
++ '[' '!' -v TESTCASE ']'
++ TESTCASE=/testcase
++ '[' '!' -f /testcase ']'
++ export RUN_FUZZER_MODE=interactive
++ RUN_FUZZER_MODE=interactive
++ export FUZZING_ENGINE=libfuzzer
++ FUZZING_ENGINE=libfuzzer
++ export SKIP_SEED_CORPUS=1
++ SKIP_SEED_CORPUS=1
++ run_fuzzer fuzz-nspawn-settings -runs=100 /testcase
+vm.mmap_rnd_bits = 28
+/out/fuzz-nspawn-settings -rss_limit_mb=2560 -timeout=25 -runs=100 /testcase < /dev/null
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 3776124605
+INFO: Loaded 2 modules   (94517 inline 8-bit counters): 92596 [0x7fc1dc997550, 0x7fc1dc9adf04), 1921 [0x560dc2c5ad08, 0x560dc2c5b489), 
+INFO: Loaded 2 PC tables (94517 PCs): 92596 [0x7fc1dc9adf08,0x7fc1dcb17a48), 1921 [0x560dc2c5b490,0x560dc2c62ca0), 
+/out/fuzz-nspawn-settings: Running 1 inputs 100 time(s) each.
+Running: /testcase
+Executed /testcase in 9 ms
+***
+*** NOTE: fuzzing was not performed, you have only
+***       executed the target code on a fixed set of inputs.
+***
+INFO:__main__:Running: docker run --privileged --shm-size=2g --platform linux/amd64 --rm -i -e HELPER=True -e ARCHITECTURE=x86_64 -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/systemd:/out -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/systemd/testcase/testcase_42537762:/testcase -t gcr.io/oss-fuzz-base/base-runner reproduce fuzz-nspawn-settings -runs=100.
+
+==================================================
+PoC Triggered: NO

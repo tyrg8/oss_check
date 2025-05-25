@@ -1,0 +1,14 @@
+tittle:rtpproxy:fuzz_rtp_session: Segv on unknown address in rtpp_refcnt_decref
+status:Verified
+type:Vulnerability
+commit_url:https://github.com/sippy/rtpproxy/commit/276207df6c0683da718d02b10e841198174b63ed
+commit_url_new:https://github.com/sippy/rtpproxy/commit/080d4eeb3da99bbd87bf85cc38b309a7151592d0
+module:rtpproxy
+target:fuzz_rtp_session
+have 1 changed files:['jump get_diff!']
+==================================================
+error running command: python infra/helper.py reproduce rtpproxy fuzz_rtp_session build/out/rtpproxy/testcase/testcase_42537896
+ERROR:__main__:fuzz_rtp_session does not seem to exist. Please run build_fuzzers first.
+
+==================================================
+PoC Triggered: YES

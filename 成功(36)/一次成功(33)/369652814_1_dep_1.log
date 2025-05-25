@@ -1,0 +1,64 @@
+tittle:ndpi:fuzz_ndpi_reader_pl7m_simplest: Heap-buffer-overflow in check_content_type_and_change_protocol
+status:Verified
+type:Vulnerability
+commit_url:https://github.com/ntop/nDPI/commit/2bf869ca594ccceca05985de648f7221e9848d37
+commit_url_new:https://github.com/ntop/nDPI/commit/ddd08f913c80289e13e9c000e11c473a21ec23ca
+module:ndpi
+target:fuzz_ndpi_reader_pl7m_simplest
+have 1 changed files:['jump get_diff!']
+==================================================
+error running command: python infra/helper.py reproduce ndpi fuzz_ndpi_reader_pl7m_simplest build/out/ndpi/testcase/testcase_369652814
++ FUZZER=fuzz_ndpi_reader_pl7m_simplest
++ shift
++ '[' '!' -v TESTCASE ']'
++ TESTCASE=/testcase
++ '[' '!' -f /testcase ']'
++ export RUN_FUZZER_MODE=interactive
++ RUN_FUZZER_MODE=interactive
++ export FUZZING_ENGINE=libfuzzer
++ FUZZING_ENGINE=libfuzzer
++ export SKIP_SEED_CORPUS=1
++ SKIP_SEED_CORPUS=1
++ run_fuzzer fuzz_ndpi_reader_pl7m_simplest -runs=100 /testcase
+vm.mmap_rnd_bits = 28
+/out/fuzz_ndpi_reader_pl7m_simplest -rss_limit_mb=2560 -timeout=25 -runs=100 /testcase -max_len=524288 < /dev/null
+INFO: found LLVMFuzzerCustomMutator (0x559c2b3b8960). Disabling -len_control by default.
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 4193415941
+INFO: Loaded 1 modules   (23554 inline 8-bit counters): 23554 [0x559c2b8d6680, 0x559c2b8dc282), 
+INFO: Loaded 1 PC tables (23554 PCs): 23554 [0x559c2b8dc288,0x559c2b9382a8), 
+/out/fuzz_ndpi_reader_pl7m_simplest: Running 1 inputs 100 time(s) each.
+Running: /testcase
+Executed /testcase in 514 ms
+***
+*** NOTE: fuzzing was not performed, you have only
+***       executed the target code on a fixed set of inputs.
+***
+
+=================================================================
+[1m[31m==17==ERROR: LeakSanitizer: detected memory leaks
+[1m[0m
+[1m[34mDirect leak of 264 byte(s) in 22 object(s) allocated from:
+[1m[0m    #0 0x559c2b37929f in malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:68:3
+    #1 0x559c2b4512fa in ndpi_malloc /src/ndpi/src/lib/ndpi_memory.c:60:46
+    #2 0x559c2b4512fa in ndpi_strdup /src/ndpi/src/lib/ndpi_memory.c:113:13
+    #3 0x559c2b455309 in ndpi_set_proto_defaults /src/ndpi/src/lib/ndpi_main.c:608:10
+    #4 0x559c2b477d78 in ndpi_handle_rule /src/ndpi/src/lib/ndpi_main.c:4801:7
+    #5 0x559c2b477d78 in load_protocols_file_fd /src/ndpi/src/lib/ndpi_main.c:5536:8
+    #6 0x559c2b4771d5 in ndpi_load_protocols_file /src/ndpi/src/lib/ndpi_main.c:5471:8
+    #7 0x559c2b3b8cc4 in LLVMFuzzerTestOneInput /src/ndpi/fuzz/fuzz_ndpi_reader.c:76:5
+    #8 0x559c2b26d4d0 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:614:13
+    #9 0x559c2b258745 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:327:6
+    #10 0x559c2b25e1df in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
+    #11 0x559c2b289482 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
+    #12 0x7f33095b6082 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x24082) (BuildId: 0323ab4806bee6f846d9ad4bccfc29afdca49a58)
+
+DEDUP_TOKEN: __interceptor_malloc--ndpi_malloc--ndpi_strdup
+SUMMARY: AddressSanitizer: 264 byte(s) leaked in 22 allocation(s).
+MS: 0 ; base unit: 0000000000000000000000000000000000000000
+
+
+INFO:__main__:Running: docker run --privileged --shm-size=2g --platform linux/amd64 --rm -i -e HELPER=True -e ARCHITECTURE=x86_64 -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/ndpi:/out -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/ndpi/testcase/testcase_369652814:/testcase -t gcr.io/oss-fuzz-base/base-runner reproduce fuzz_ndpi_reader_pl7m_simplest -runs=100.
+
+==================================================
+PoC Triggered: YES

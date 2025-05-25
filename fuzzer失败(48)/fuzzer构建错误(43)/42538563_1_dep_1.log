@@ -1,0 +1,14 @@
+tittle:istio:FuzzMergeTrafficPolicy: ASSERT: fatal
+status:Verified
+type:Bug
+commit_url:https://github.com/istio/istio/commit/49f7ce268455196445d5b5b0a7fbbae94a5d74f8
+commit_url_new:https://github.com/istio/istio/commit/122d909fd981f48bf98fc1e720fd1aabdd0e6da4
+module:istio
+target:FuzzMergeTrafficPolicy
+have 1 changed files:['jump get_diff!']
+==================================================
+error running command: python infra/helper.py reproduce istio FuzzMergeTrafficPolicy build/out/istio/testcase/testcase_42538563
+ERROR:__main__:FuzzMergeTrafficPolicy does not seem to exist. Please run build_fuzzers first.
+
+==================================================
+PoC Triggered: YES

@@ -1,0 +1,56 @@
+tittle:icu:calendar_fuzzer: Integer-overflow in icu_76::PersianCalendar::handleComputeFields
+status:Verified
+type:Bug
+commit_url:https://github.com/unicode-org/icu/commit/bfc53547d1dc877b1920918dd12e7be0f7758e03
+commit_url_new:https://github.com/unicode-org/icu/commit/https://github.com/unicode-org/icu/commit/bfc53547d1dc877b1920918dd12e7be0f7758e03
+module:icu
+target:calendar_fuzzer
+have 1 changed files:['jump get_diff!']
+==================================================
+error running command: python infra/helper.py reproduce icu calendar_fuzzer build/out/icu/testcase/testcase_42538607
++ FUZZER=calendar_fuzzer
++ shift
++ '[' '!' -v TESTCASE ']'
++ TESTCASE=/testcase
++ '[' '!' -f /testcase ']'
++ export RUN_FUZZER_MODE=interactive
++ RUN_FUZZER_MODE=interactive
++ export FUZZING_ENGINE=libfuzzer
++ FUZZING_ENGINE=libfuzzer
++ export SKIP_SEED_CORPUS=1
++ SKIP_SEED_CORPUS=1
++ run_fuzzer calendar_fuzzer -runs=100 /testcase
+vm.mmap_rnd_bits = 28
+/out/calendar_fuzzer -rss_limit_mb=2560 -timeout=25 -runs=100 /testcase < /dev/null
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 3979585701
+INFO: Loaded 1 modules   (93076 inline 8-bit counters): 93076 [0x55596dc693c0, 0x55596dc7ff54), 
+INFO: Loaded 1 PC tables (93076 PCs): 93076 [0x55596dc7ff58,0x55596ddeb898), 
+/out/calendar_fuzzer: Running 1 inputs 100 time(s) each.
+Running: /testcase
+locale = zh_Hans_CN@calendar=persian
+fieldDifference(-9256044708818634.000000, 23)
+fieldDifference(-1365489013675850310542713484572430559137070085926629297334457853035434396160418685879646285872502107035106871362648573015222326976915929623340401213482991946308914956297627020920256817928736974472357514321715199610242433562176945700659239996491069290498472679427222847151612984115946483781586914771992576.000000, 23)
+[1m/src/icu/icu4c/source/i18n/persncal.cpp:220:40:[1m[31m runtime error: [1m[0m[1msigned integer overflow: -2147273213 - 1948320 cannot be represented in type 'int32_t' (aka 'int')[1m[0m
+    #0 0x55596b7c4f64 in icu_76::PersianCalendar::handleComputeFields(int, UErrorCode&) /src/icu/icu4c/source/i18n/persncal.cpp:220:40
+    #1 0x55596b76f9b3 in icu_76::Calendar::computeFields(UErrorCode&) /src/icu/icu4c/source/i18n/calendar.cpp:1476:5
+    #2 0x55596b76c719 in icu_76::Calendar::complete(UErrorCode&) /src/icu/icu4c/source/i18n/calendar.cpp:1349:9
+    #3 0x55596b76c315 in icu_76::Calendar::get(UCalendarDateFields, UErrorCode&) const /src/icu/icu4c/source/i18n/calendar.cpp:1194:57
+    #4 0x55596b782e89 in icu_76::Calendar::getActualMaximum(UCalendarDateFields, UErrorCode&) const /src/icu/icu4c/source/i18n/calendar.cpp:3871:48
+    #5 0x55596b76edd9 in icu_76::Calendar::pinField(UCalendarDateFields, UErrorCode&) /src/icu/icu4c/source/i18n/calendar.cpp:1399:19
+    #6 0x55596b774d60 in icu_76::Calendar::add(UCalendarDateFields, int, UErrorCode&) /src/icu/icu4c/source/i18n/calendar.cpp:2201:9
+    #7 0x55596b7760d3 in icu_76::Calendar::fieldDifference(double, UCalendarDateFields, UErrorCode&) /src/icu/icu4c/source/i18n/calendar.cpp:2387:13
+    #8 0x55596b760d73 in LLVMFuzzerTestOneInput /src/icu/icu4c/source/test/fuzzer/calendar_fuzzer.cpp:124:22
+    #9 0x55596b6c1b40 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:614:13
+    #10 0x55596b6acdb5 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:327:6
+    #11 0x55596b6b284f in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
+    #12 0x55596b6ddaf2 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
+    #13 0x7f684e5b8082 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x24082) (BuildId: 0323ab4806bee6f846d9ad4bccfc29afdca49a58)
+    #14 0x55596b6a4f9d in _start (/out/calendar_fuzzer+0x418f9d)
+
+DEDUP_TOKEN: icu_76::PersianCalendar::handleComputeFields(int, UErrorCode&)--icu_76::Calendar::computeFields(UErrorCode&)--icu_76::Calendar::complete(UErrorCode&)
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior /src/icu/icu4c/source/i18n/persncal.cpp:220:40 
+INFO:__main__:Running: docker run --privileged --shm-size=2g --platform linux/amd64 --rm -i -e HELPER=True -e ARCHITECTURE=x86_64 -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/icu:/out -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/icu/testcase/testcase_42538607:/testcase -t gcr.io/oss-fuzz-base/base-runner reproduce calendar_fuzzer -runs=100.
+
+==================================================
+PoC Triggered: YES

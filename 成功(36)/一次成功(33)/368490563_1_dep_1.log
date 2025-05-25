@@ -1,0 +1,56 @@
+tittle:gpac:fuzz_m2ts_probe: Crash in gf_m2ts_section_complete
+status:Verified
+type:Vulnerability
+commit_url:https://github.com/gpac/gpac/commit/1bf9c1a890eef45dffecbc1c5dbe92cdee4e31d7
+commit_url_new:https://github.com/gpac/gpac/commit/ccc6a76a67e08814e20ca678b84899653102b1f5
+module:gpac
+target:fuzz_m2ts_probe
+have 1 changed files:['jump get_diff!']
+==================================================
+error running command: python infra/helper.py reproduce gpac fuzz_m2ts_probe build/out/gpac/testcase/testcase_368490563
++ FUZZER=fuzz_m2ts_probe
++ shift
++ '[' '!' -v TESTCASE ']'
++ TESTCASE=/testcase
++ '[' '!' -f /testcase ']'
++ export RUN_FUZZER_MODE=interactive
++ RUN_FUZZER_MODE=interactive
++ export FUZZING_ENGINE=libfuzzer
++ FUZZING_ENGINE=libfuzzer
++ export SKIP_SEED_CORPUS=1
++ SKIP_SEED_CORPUS=1
++ run_fuzzer fuzz_m2ts_probe -runs=100 /testcase
+vm.mmap_rnd_bits = 28
+/out/fuzz_m2ts_probe -rss_limit_mb=2560 -timeout=25 -runs=100 /testcase < /dev/null
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 2339674171
+INFO: Loaded 1 modules   (321746 inline 8-bit counters): 321746 [0x55760240bd20, 0x55760245a5f2), 
+INFO: Loaded 1 PC tables (321746 PCs): 321746 [0x55760245a5f8,0x557602943318), 
+/out/fuzz_m2ts_probe: Running 1 inputs 100 time(s) each.
+Running: /testcase
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+[1m[31m==14==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x557731a1abb6 (pc 0x7f0853db1b38 bp 0x7ffced713c30 sp 0x7ffced713b98 T14)
+[1m[0m==14==The signal is caused by a READ memory access.
+    #0 0x7f0853db1b38  (/lib/x86_64-linux-gnu/libc.so.6+0x18bb38) (BuildId: 0323ab4806bee6f846d9ad4bccfc29afdca49a58)
+    #1 0x557601432a89 in gf_m2ts_section_complete /src/gpac/src/media_tools/mpegts.c:509:4
+    #2 0x55760143181a in gf_m2ts_gather_section /src/gpac/src/media_tools/mpegts.c:705:2
+    #3 0x55760142b3c9 in gf_m2ts_process_packet /src/gpac/src/media_tools/mpegts.c
+    #4 0x557601429d10 in gf_m2ts_process_data /src/gpac/src/media_tools/mpegts.c:2803:18
+    #5 0x55760142f588 in gf_m2ts_probe_buffer /src/gpac/src/media_tools/mpegts.c:3189:6
+    #6 0x55760142f51f in gf_m2ts_probe_file /src/gpac/src/media_tools/mpegts.c:3235:9
+    #7 0x557601427e32 in LLVMFuzzerTestOneInput /src/gpac/testsuite/oss-fuzzers/fuzz_m2ts_probe.c:16:3
+    #8 0x55760138a3a0 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:614:13
+    #9 0x557601375615 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:327:6
+    #10 0x55760137b0af in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
+    #11 0x5576013a6352 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
+    #12 0x7f0853c4a082 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x24082) (BuildId: 0323ab4806bee6f846d9ad4bccfc29afdca49a58)
+    #13 0x55760136d7fd in _start (/out/fuzz_m2ts_probe+0xaec7fd)
+
+DEDUP_TOKEN: gf_m2ts_section_complete--gf_m2ts_gather_section
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x18bb38) (BuildId: 0323ab4806bee6f846d9ad4bccfc29afdca49a58) 
+==14==ABORTING
+INFO:__main__:Running: docker run --privileged --shm-size=2g --platform linux/amd64 --rm -i -e HELPER=True -e ARCHITECTURE=x86_64 -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/gpac:/out -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/gpac/testcase/testcase_368490563:/testcase -t gcr.io/oss-fuzz-base/base-runner reproduce fuzz_m2ts_probe -runs=100.
+
+==================================================
+PoC Triggered: YES

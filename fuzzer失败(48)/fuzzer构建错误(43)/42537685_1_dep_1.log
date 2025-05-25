@@ -1,0 +1,14 @@
+tittle:llamacpp:fuzz_tokenizer_baichuan: Timeout in fuzz_tokenizer_baichuan
+status:Verified
+type:Bug
+commit_url:https://github.com/ggerganov/llama.cpp/commit/4b77ea95f56a4c49bc995f08eac62a6416875ccc
+commit_url_new:https://github.com/ggerganov/llama.cpp/commit/https://github.com/ggerganov/llama.cpp/commit/4b77ea95f56a4c49bc995f08eac62a6416875ccc
+module:llamacpp
+target:fuzz_tokenizer_baichuan
+have 1 changed files:['jump get_diff!']
+==================================================
+error running command: python infra/helper.py reproduce llamacpp fuzz_tokenizer_baichuan build/out/llamacpp/testcase/testcase_42537685
+ERROR:__main__:fuzz_tokenizer_baichuan does not seem to exist. Please run build_fuzzers first.
+
+==================================================
+PoC Triggered: YES

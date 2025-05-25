@@ -1,0 +1,14 @@
+tittle:sigstore-go:FuzzVerifySignatureWithArtifactWithoutDigest: Null-dereference READ in github.com/sigstore/sigstore-go/pkg/verify.verifyEnvelopeWithArtifact
+status:Verified
+type:Bug
+commit_url:https://github.com/AdamKorcz/sigstore-go/commit/df99d1274e3ee398635981173c7d604d26e880ca
+commit_url_new:https://github.com/AdamKorcz/sigstore-go/commit/https://github.com/AdamKorcz/sigstore-go/commit/df99d1274e3ee398635981173c7d604d26e880ca
+module:sigstore-go
+target:FuzzVerifySignatureWithArtifactWithoutDigest
+have 9 changed files:['img_error', 'img_error', 'img_error']
+==================================================
+error running command: python infra/helper.py reproduce sigstore-go FuzzVerifySignatureWithArtifactWithoutDigest build/out/sigstore-go/testcase/testcase_42538116
+ERROR:__main__:FuzzVerifySignatureWithArtifactWithoutDigest does not seem to exist. Please run build_fuzzers first.
+
+==================================================
+PoC Triggered: YES

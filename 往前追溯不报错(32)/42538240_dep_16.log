@@ -1,0 +1,38 @@
+tittle:php:php-fuzz-execute: ASSERT: prop_num >= 0 && prop_num < obj->ce->default_properties_count
+status:Verified
+type:Bug
+commit_url:https://github.com/php/php-src/commit/7edb9a07d750a92ceea9371588f10ff2f05df40f
+commit_url_new:https://github.com/php/php-src/commit/5ed1659039ecd3644ac13a4ab890c11eb077b09e
+module:php
+target:php-fuzz-execute
+have 1 changed files:['jump get_diff!']
+==================================================
++ FUZZER=php-fuzz-execute
++ shift
++ '[' '!' -v TESTCASE ']'
++ TESTCASE=/testcase
++ '[' '!' -f /testcase ']'
++ export RUN_FUZZER_MODE=interactive
++ RUN_FUZZER_MODE=interactive
++ export FUZZING_ENGINE=libfuzzer
++ FUZZING_ENGINE=libfuzzer
++ export SKIP_SEED_CORPUS=1
++ SKIP_SEED_CORPUS=1
++ run_fuzzer php-fuzz-execute -runs=100 /testcase
+vm.mmap_rnd_bits = 28
+/out/php-fuzz-execute -rss_limit_mb=2560 -timeout=25 -runs=100 /testcase < /dev/null
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 1807375561
+INFO: Loaded 1 modules   (151955 inline 8-bit counters): 151955 [0x557a8521e6e0, 0x557a85243873), 
+INFO: Loaded 1 PC tables (151955 PCs): 151955 [0x557a85243878,0x557a854951a8), 
+/out/php-fuzz-execute: Running 1 inputs 100 time(s) each.
+Running: /testcase
+Executed /testcase in 55 ms
+***
+*** NOTE: fuzzing was not performed, you have only
+***       executed the target code on a fixed set of inputs.
+***
+INFO:__main__:Running: docker run --privileged --shm-size=2g --platform linux/amd64 --rm -i -e HELPER=True -e ARCHITECTURE=x86_64 -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/php:/out -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/php/testcase/testcase_42538240:/testcase -t gcr.io/oss-fuzz-base/base-runner reproduce php-fuzz-execute -runs=100.
+
+==================================================
+PoC Triggered: NO

@@ -1,0 +1,38 @@
+tittle:bind9:dns_message_parse_fuzzer: Abrt in destroy
+status:Verified
+type:Bug
+commit_url:https://gitlab.isc.org/isc-projects/bind9/commit/7facf967aca16ca35244d5de5a282b3621da98c8
+commit_url_new:https://gitlab.isc.org/isc-projects/bind9/commit/f202937078f21eac8437fd1d0674e9fc84a229ce
+module:bind9
+target:dns_message_parse_fuzzer
+have 1 changed files:['jump get_diff!']
+==================================================
++ FUZZER=dns_message_parse_fuzzer
++ shift
++ '[' '!' -v TESTCASE ']'
++ TESTCASE=/testcase
++ '[' '!' -f /testcase ']'
++ export RUN_FUZZER_MODE=interactive
++ RUN_FUZZER_MODE=interactive
++ export FUZZING_ENGINE=libfuzzer
++ FUZZING_ENGINE=libfuzzer
++ export SKIP_SEED_CORPUS=1
++ SKIP_SEED_CORPUS=1
++ run_fuzzer dns_message_parse_fuzzer -runs=100 /testcase
+vm.mmap_rnd_bits = 28
+/out/dns_message_parse_fuzzer -rss_limit_mb=2560 -timeout=25 -runs=100 /testcase < /dev/null
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 2086053226
+INFO: Loaded 1 modules   (71173 inline 8-bit counters): 71173 [0x564f2d6140e8, 0x564f2d6256ed), 
+INFO: Loaded 1 PC tables (71173 PCs): 71173 [0x564f2d6256f0,0x564f2d73b740), 
+/out/dns_message_parse_fuzzer: Running 1 inputs 100 time(s) each.
+Running: /testcase
+Executed /testcase in 2945 ms
+***
+*** NOTE: fuzzing was not performed, you have only
+***       executed the target code on a fixed set of inputs.
+***
+INFO:__main__:Running: docker run --privileged --shm-size=2g --platform linux/amd64 --rm -i -e HELPER=True -e ARCHITECTURE=x86_64 -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/bind9:/out -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/bind9/testcase/testcase_42537783:/testcase -t gcr.io/oss-fuzz-base/base-runner reproduce dns_message_parse_fuzzer -runs=100.
+
+==================================================
+PoC Triggered: NO

@@ -1,0 +1,14 @@
+tittle:llamacpp:fuzz_tokenizer_spm: Timeout in fuzz_tokenizer_spm
+status:Verified
+type:Bug
+commit_url:https://github.com/ggerganov/llama.cpp/commit/2b1f616b208a4a21c4ee7a7eb85d822ff1d787af
+commit_url_new:https://github.com/ggerganov/llama.cpp/commit/https://github.com/ggerganov/llama.cpp/commit/2b1f616b208a4a21c4ee7a7eb85d822ff1d787af
+module:llamacpp
+target:fuzz_tokenizer_spm
+have 1 changed files:['jump get_diff!']
+==================================================
+error running command: python infra/helper.py reproduce llamacpp fuzz_tokenizer_spm build/out/llamacpp/testcase/testcase_42537475
+ERROR:__main__:fuzz_tokenizer_spm does not seem to exist. Please run build_fuzzers first.
+
+==================================================
+PoC Triggered: YES

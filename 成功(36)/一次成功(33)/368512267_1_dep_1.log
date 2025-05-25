@@ -1,0 +1,62 @@
+tittle:gpac:fuzz_m2ts_probe: Direct-leak in gf_m2ts_section_filter_new
+status:Verified
+type:Bug
+commit_url:https://github.com/gpac/gpac/commit/1bf9c1a890eef45dffecbc1c5dbe92cdee4e31d7
+commit_url_new:https://github.com/gpac/gpac/commit/ccc6a76a67e08814e20ca678b84899653102b1f5
+module:gpac
+target:fuzz_m2ts_probe
+have 1 changed files:['jump get_diff!']
+==================================================
+error running command: python infra/helper.py reproduce gpac fuzz_m2ts_probe build/out/gpac/testcase/testcase_368512267
++ FUZZER=fuzz_m2ts_probe
++ shift
++ '[' '!' -v TESTCASE ']'
++ TESTCASE=/testcase
++ '[' '!' -f /testcase ']'
++ export RUN_FUZZER_MODE=interactive
++ RUN_FUZZER_MODE=interactive
++ export FUZZING_ENGINE=libfuzzer
++ FUZZING_ENGINE=libfuzzer
++ export SKIP_SEED_CORPUS=1
++ SKIP_SEED_CORPUS=1
++ run_fuzzer fuzz_m2ts_probe -runs=100 /testcase
+vm.mmap_rnd_bits = 28
+/out/fuzz_m2ts_probe -rss_limit_mb=2560 -timeout=25 -runs=100 /testcase < /dev/null
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 1900377642
+INFO: Loaded 1 modules   (242425 inline 8-bit counters): 242425 [0x557021167620, 0x5570211a2919), 
+INFO: Loaded 1 PC tables (242425 PCs): 242425 [0x5570211a2920,0x5570215558b0), 
+/out/fuzz_m2ts_probe: Running 1 inputs 100 time(s) each.
+Running: /testcase
+
+=================================================================
+[1m[31m==14==ERROR: LeakSanitizer: detected memory leaks
+[1m[0m
+[1m[34mDirect leak of 64 byte(s) in 1 object(s) allocated from:
+[1m[0m    #0 0x55701fa929af in malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:68:3
+    #1 0x55701fadab50 in gf_m2ts_section_filter_new /src/gpac/src/media_tools/mpegts.c:207:2
+    #2 0x55701fae7684 in gf_m2ts_process_pmt /src/gpac/src/media_tools/mpegts.c:1416:15
+    #3 0x55701fae49f6 in gf_m2ts_section_complete /src/gpac/src/media_tools/mpegts.c:571:7
+    #4 0x55701fae1a06 in gf_m2ts_gather_section /src/gpac/src/media_tools/mpegts.c:705:2
+    #5 0x55701fad777b in gf_m2ts_process_packet /src/gpac/src/media_tools/mpegts.c:2711:17
+    #6 0x55701fad57be in gf_m2ts_process_data /src/gpac/src/media_tools/mpegts.c:2803:18
+    #7 0x55701fade318 in gf_m2ts_probe_buffer /src/gpac/src/media_tools/mpegts.c:3189:6
+    #8 0x55701fade27a in gf_m2ts_probe_file /src/gpac/src/media_tools/mpegts.c:3235:9
+    #9 0x55701fad21bd in LLVMFuzzerTestOneInput /src/gpac/testsuite/oss-fuzzers/fuzz_m2ts_probe.c:16:3
+    #10 0x55701f986be0 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:614:13
+    #11 0x55701f971e55 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:327:6
+    #12 0x55701f9778ef in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
+    #13 0x55701f9a2b92 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
+    #14 0x7f6210fad082 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x24082) (BuildId: 0323ab4806bee6f846d9ad4bccfc29afdca49a58)
+
+DEDUP_TOKEN: __interceptor_malloc--gf_m2ts_section_filter_new--gf_m2ts_process_pmt
+SUMMARY: AddressSanitizer: 64 byte(s) leaked in 1 allocation(s).
+
+INFO: a leak has been found in the initial corpus.
+
+INFO: to ignore leaks on libFuzzer side use -detect_leaks=0.
+
+INFO:__main__:Running: docker run --privileged --shm-size=2g --platform linux/amd64 --rm -i -e HELPER=True -e ARCHITECTURE=x86_64 -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/gpac:/out -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/gpac/testcase/testcase_368512267:/testcase -t gcr.io/oss-fuzz-base/base-runner reproduce fuzz_m2ts_probe -runs=100.
+
+==================================================
+PoC Triggered: YES

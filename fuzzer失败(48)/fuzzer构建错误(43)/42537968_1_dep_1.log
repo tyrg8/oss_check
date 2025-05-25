@@ -1,0 +1,14 @@
+tittle:arrow:arrow-ipc-stream-fuzz: Integer-overflow in arrow::PoolBuffer::Reserve
+status:Verified
+type:Bug
+commit_url:https://github.com/apache/arrow/commit/ee86db57bb771dbdb5f2fca5890854f27e6aa964
+commit_url_new:https://github.com/apache/arrow/commit/483bc7b6d10d62e3bb83c167569cde84e2912744
+module:arrow
+target:arrow-ipc-stream-fuzz
+have 1 changed files:['jump get_diff!']
+==================================================
+error running command: python infra/helper.py reproduce arrow arrow-ipc-stream-fuzz build/out/arrow/testcase/testcase_42537968
+ERROR:__main__:arrow-ipc-stream-fuzz does not seem to exist. Please run build_fuzzers first.
+
+==================================================
+PoC Triggered: YES

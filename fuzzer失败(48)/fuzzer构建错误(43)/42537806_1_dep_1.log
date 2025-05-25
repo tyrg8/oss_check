@@ -1,0 +1,14 @@
+tittle:llamacpp:fuzz_tokenizer_gpt_2: Timeout in fuzz_tokenizer_gpt_2
+status:Verified
+type:Bug
+commit_url:https://github.com/ggerganov/llama.cpp/commit/15fa07a5c564d3ed7e7eb64b73272cedb27e73ec
+commit_url_new:https://github.com/ggerganov/llama.cpp/commit/https://github.com/ggerganov/llama.cpp/commit/15fa07a5c564d3ed7e7eb64b73272cedb27e73ec
+module:llamacpp
+target:fuzz_tokenizer_gpt_2
+have 1 changed files:['jump get_diff!']
+==================================================
+error running command: python infra/helper.py reproduce llamacpp fuzz_tokenizer_gpt_2 build/out/llamacpp/testcase/testcase_42537806
+ERROR:__main__:fuzz_tokenizer_gpt_2 does not seem to exist. Please run build_fuzzers first.
+
+==================================================
+PoC Triggered: YES

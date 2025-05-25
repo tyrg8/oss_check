@@ -1,0 +1,38 @@
+tittle:gitoxide:gix-date-parse: Abrt in parse::_::__libfuzzer_sys_run::h527084daf95f926b
+status:Verified
+type:Bug
+commit_url:https://github.com/Byron/gitoxide/commit/55cffe4ecf78bfea76059b742fafaebe964a725f
+commit_url_new:https://github.com/Byron/gitoxide/commit/1d37bf6a773d56eea9003aa626ced413e8e0eaa3
+module:gitoxide
+target:gix-date-parse
+have 1 changed files:['jump get_diff!']
+==================================================
++ FUZZER=gix-date-parse
++ shift
++ '[' '!' -v TESTCASE ']'
++ TESTCASE=/testcase
++ '[' '!' -f /testcase ']'
++ export RUN_FUZZER_MODE=interactive
++ RUN_FUZZER_MODE=interactive
++ export FUZZING_ENGINE=libfuzzer
++ FUZZING_ENGINE=libfuzzer
++ export SKIP_SEED_CORPUS=1
++ SKIP_SEED_CORPUS=1
++ run_fuzzer gix-date-parse -runs=100 /testcase
+vm.mmap_rnd_bits = 28
+/out/gix-date-parse -rss_limit_mb=2560 -timeout=25 -runs=100 /testcase < /dev/null
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 90919196
+INFO: Loaded 1 modules   (78771 inline 8-bit counters): 78771 [0x556e6d06cf30, 0x556e6d0802e3), 
+INFO: Loaded 1 PC tables (78771 PCs): 78771 [0x556e6d0802e8,0x556e6d1b3e18), 
+/out/gix-date-parse: Running 1 inputs 100 time(s) each.
+Running: /testcase
+Executed /testcase in 6 ms
+***
+*** NOTE: fuzzing was not performed, you have only
+***       executed the target code on a fixed set of inputs.
+***
+INFO:__main__:Running: docker run --privileged --shm-size=2g --platform linux/amd64 --rm -i -e HELPER=True -e ARCHITECTURE=x86_64 -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/gitoxide:/out -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/gitoxide/testcase/testcase_42537606:/testcase -t gcr.io/oss-fuzz-base/base-runner reproduce gix-date-parse -runs=100.
+
+==================================================
+PoC Triggered: NO

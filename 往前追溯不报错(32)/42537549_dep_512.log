@@ -1,0 +1,38 @@
+tittle:rhai:scripting: Abrt in rhai::eval::target::Target::propagate_changed_value::h589562460361fc56
+status:Verified
+type:Bug
+commit_url:https://github.com/rhaiscript/rhai/commit/f44af631261c96f5531f138f268ffd5661fd6161
+commit_url_new:https://github.com/rhaiscript/rhai/commit/10951b7f952f2942b21b38a6601eee949c8a5bb8
+module:rhai
+target:scripting
+have 1 changed files:['jump get_diff!']
+==================================================
++ FUZZER=scripting
++ shift
++ '[' '!' -v TESTCASE ']'
++ TESTCASE=/testcase
++ '[' '!' -f /testcase ']'
++ export RUN_FUZZER_MODE=interactive
++ RUN_FUZZER_MODE=interactive
++ export FUZZING_ENGINE=libfuzzer
++ FUZZING_ENGINE=libfuzzer
++ export SKIP_SEED_CORPUS=1
++ SKIP_SEED_CORPUS=1
++ run_fuzzer scripting -runs=100 /testcase
+vm.mmap_rnd_bits = 28
+/out/scripting -rss_limit_mb=2560 -timeout=25 -runs=100 /testcase < /dev/null
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 70581584
+INFO: Loaded 1 modules   (340441 inline 8-bit counters): 340441 [0x5613a9e543f0, 0x5613a9ea75c9), 
+INFO: Loaded 1 PC tables (340441 PCs): 340441 [0x5613a9ea75d0,0x5613aa3d9360), 
+/out/scripting: Running 1 inputs 100 time(s) each.
+Running: /testcase
+Executed /testcase in 999 ms
+***
+*** NOTE: fuzzing was not performed, you have only
+***       executed the target code on a fixed set of inputs.
+***
+INFO:__main__:Running: docker run --privileged --shm-size=2g --platform linux/amd64 --rm -i -e HELPER=True -e ARCHITECTURE=x86_64 -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/rhai:/out -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/rhai/testcase/testcase_42537549:/testcase -t gcr.io/oss-fuzz-base/base-runner reproduce scripting -runs=100.
+
+==================================================
+PoC Triggered: NO

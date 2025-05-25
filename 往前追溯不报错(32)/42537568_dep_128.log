@@ -1,0 +1,38 @@
+tittle:gitoxide:gix-refspec-parse: Abrt in gix_revision::spec::parse::function::revision::_$u7b$$u7b$closure$u7d$$u7d$::h1e
+status:Verified
+type:Bug
+commit_url:https://github.com/Byron/gitoxide/commit/55cffe4ecf78bfea76059b742fafaebe964a725f
+commit_url_new:https://github.com/Byron/gitoxide/commit/1d37bf6a773d56eea9003aa626ced413e8e0eaa3
+module:gitoxide
+target:gix-refspec-parse
+have 1 changed files:['jump get_diff!']
+==================================================
++ FUZZER=gix-refspec-parse
++ shift
++ '[' '!' -v TESTCASE ']'
++ TESTCASE=/testcase
++ '[' '!' -f /testcase ']'
++ export RUN_FUZZER_MODE=interactive
++ RUN_FUZZER_MODE=interactive
++ export FUZZING_ENGINE=libfuzzer
++ FUZZING_ENGINE=libfuzzer
++ export SKIP_SEED_CORPUS=1
++ SKIP_SEED_CORPUS=1
++ run_fuzzer gix-refspec-parse -runs=100 /testcase
+vm.mmap_rnd_bits = 28
+/out/gix-refspec-parse -rss_limit_mb=2560 -timeout=25 -runs=100 /testcase < /dev/null
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 1076934888
+INFO: Loaded 1 modules   (121202 inline 8-bit counters): 121202 [0x55e331981000, 0x55e33199e972), 
+INFO: Loaded 1 PC tables (121202 PCs): 121202 [0x55e33199e978,0x55e331b78098), 
+/out/gix-refspec-parse: Running 1 inputs 100 time(s) each.
+Running: /testcase
+Executed /testcase in 39 ms
+***
+*** NOTE: fuzzing was not performed, you have only
+***       executed the target code on a fixed set of inputs.
+***
+INFO:__main__:Running: docker run --privileged --shm-size=2g --platform linux/amd64 --rm -i -e HELPER=True -e ARCHITECTURE=x86_64 -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/gitoxide:/out -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/gitoxide/testcase/testcase_42537568:/testcase -t gcr.io/oss-fuzz-base/base-runner reproduce gix-refspec-parse -runs=100.
+
+==================================================
+PoC Triggered: NO

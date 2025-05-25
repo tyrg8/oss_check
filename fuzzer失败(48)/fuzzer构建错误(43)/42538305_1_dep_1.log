@@ -1,0 +1,14 @@
+tittle:icu:message_formatter_fuzzer: Out-of-memory in message_formatter_fuzzer
+status:Verified
+type:Bug
+commit_url:https://github.com/unicode-org/icu/commit/f062f52c123f436eb1142115ba2e4e7b65a4ac8f
+commit_url_new:https://github.com/unicode-org/icu/commit/9270216cb73faa128a9d77a14175fc4a164747ad
+module:icu
+target:message_formatter_fuzzer
+have 1 changed files:['jump get_diff!']
+==================================================
+error running command: python infra/helper.py reproduce icu message_formatter_fuzzer build/out/icu/testcase/testcase_42538305
+ERROR:__main__:message_formatter_fuzzer does not seem to exist. Please run build_fuzzers first.
+
+==================================================
+PoC Triggered: YES

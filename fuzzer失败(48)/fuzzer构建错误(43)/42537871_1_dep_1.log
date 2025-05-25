@@ -1,0 +1,14 @@
+tittle:llamacpp:fuzz_grammar: Stack-overflow in llama_grammar_detect_left_recursion
+status:Verified
+type:Bug
+commit_url:https://github.com/ggerganov/llama.cpp/commit/6e02327e8b7837358e0406bf90a4632e18e27846
+commit_url_new:https://github.com/ggerganov/llama.cpp/commit/https://github.com/ggerganov/llama.cpp/commit/6e02327e8b7837358e0406bf90a4632e18e27846
+module:llamacpp
+target:fuzz_grammar
+have 1 changed files:['jump get_diff!']
+==================================================
+error running command: python infra/helper.py reproduce llamacpp fuzz_grammar build/out/llamacpp/testcase/testcase_42537871
+ERROR:__main__:fuzz_grammar does not seem to exist. Please run build_fuzzers first.
+
+==================================================
+PoC Triggered: YES

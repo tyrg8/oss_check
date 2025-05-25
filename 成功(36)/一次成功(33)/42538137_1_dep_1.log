@@ -1,0 +1,184 @@
+tittle:rtpproxy:fuzz_command_parser: Abrt in dbg_printf
+status:Verified
+type:Bug
+commit_url:https://github.com/sippy/rtpproxy/commit/b3d204d79d29cd8c811b372efbd0b27784527be0
+commit_url_new:https://github.com/sippy/rtpproxy/commit/cf407788f69f2da531cd387c7f40b85e08907388
+module:rtpproxy
+target:fuzz_command_parser
+have 1 changed files:['jump get_diff!']
+==================================================
+error running command: python infra/helper.py reproduce rtpproxy fuzz_command_parser build/out/rtpproxy/testcase/testcase_42538137
++ FUZZER=fuzz_command_parser
++ shift
++ '[' '!' -v TESTCASE ']'
++ TESTCASE=/testcase
++ '[' '!' -f /testcase ']'
++ export RUN_FUZZER_MODE=interactive
++ RUN_FUZZER_MODE=interactive
++ export FUZZING_ENGINE=libfuzzer
++ FUZZING_ENGINE=libfuzzer
++ export SKIP_SEED_CORPUS=1
++ SKIP_SEED_CORPUS=1
++ run_fuzzer fuzz_command_parser -runs=100 /testcase
+vm.mmap_rnd_bits = 28
+/out/fuzz_command_parser -rss_limit_mb=2560 -timeout=25 -runs=100 /testcase -detect_leaks=0 -max_len=8192 -print_final_stats=1 -use_value_profile=1 -dict=fuzz_command_parser.dict < /dev/null
+==17==Registered root region at 0x7f41472007a0 of size 32
+==17==Registered root region at 0x7f4146e00f40 of size 64
+==17==Unregistered root region at 0x7f4146e00f40 of size 64
+==17==AddressSanitizer: failed to intercept '__isoc23_scanf'
+==17==Registered root region at 0x7f4146e00f40 of size 64
+==17==Unregistered root region at 0x7f4146e00f40 of size 64
+==17==AddressSanitizer: failed to intercept '__isoc23_sscanf'
+==17==Registered root region at 0x7f4146e00f40 of size 64
+==17==Unregistered root region at 0x7f4146e00f40 of size 64
+==17==AddressSanitizer: failed to intercept '__isoc23_fscanf'
+==17==Registered root region at 0x7f4146e00f40 of size 64
+==17==Unregistered root region at 0x7f4146e00f40 of size 64
+==17==AddressSanitizer: failed to intercept '__isoc23_vscanf'
+==17==Registered root region at 0x7f4146e00f40 of size 64
+==17==Unregistered root region at 0x7f4146e00f40 of size 64
+==17==AddressSanitizer: failed to intercept '__isoc23_vsscanf'
+==17==Registered root region at 0x7f4146e00f40 of size 64
+==17==Unregistered root region at 0x7f4146e00f40 of size 64
+==17==AddressSanitizer: failed to intercept '__isoc23_vfscanf'
+==17==Registered root region at 0x7f4146e00f40 of size 64
+==17==Unregistered root region at 0x7f4146e00f40 of size 64
+==17==AddressSanitizer: failed to intercept '__isoc99_printf'
+==17==Registered root region at 0x7f4146e00f40 of size 64
+==17==Unregistered root region at 0x7f4146e00f40 of size 64
+==17==AddressSanitizer: failed to intercept '__isoc99_sprintf'
+==17==Registered root region at 0x7f4146e00f40 of size 64
+==17==Unregistered root region at 0x7f4146e00f40 of size 64
+==17==AddressSanitizer: failed to intercept '__isoc99_snprintf'
+==17==Registered root region at 0x7f4146e00f40 of size 64
+==17==Unregistered root region at 0x7f4146e00f40 of size 64
+==17==AddressSanitizer: failed to intercept '__isoc99_fprintf'
+==17==Registered root region at 0x7f4146e00f40 of size 64
+==17==Unregistered root region at 0x7f4146e00f40 of size 64
+==17==AddressSanitizer: failed to intercept '__isoc99_vprintf'
+==17==Registered root region at 0x7f4146e00f40 of size 64
+==17==Unregistered root region at 0x7f4146e00f40 of size 64
+==17==AddressSanitizer: failed to intercept '__isoc99_vsprintf'
+==17==Registered root region at 0x7f4146e00f40 of size 64
+==17==Unregistered root region at 0x7f4146e00f40 of size 64
+==17==AddressSanitizer: failed to intercept '__isoc99_vsnprintf'
+==17==Registered root region at 0x7f4146e00f40 of size 64
+==17==Unregistered root region at 0x7f4146e00f40 of size 64
+==17==AddressSanitizer: failed to intercept '__isoc99_vfprintf'
+==17==Registered root region at 0x7f4146e00f40 of size 64
+==17==Unregistered root region at 0x7f4146e00f40 of size 64
+==17==AddressSanitizer: failed to intercept '__isoc23_strtoimax'
+==17==Registered root region at 0x7f4146e00f40 of size 64
+==17==Unregistered root region at 0x7f4146e00f40 of size 64
+==17==AddressSanitizer: failed to intercept '__isoc23_strtoumax'
+==17==Registered root region at 0x7f4146e00f40 of size 64
+==17==Unregistered root region at 0x7f4146e00f40 of size 64
+==17==AddressSanitizer: failed to intercept 'xdr_destroy'
+==17==Registered root region at 0x7f4146e00f40 of size 64
+==17==Unregistered root region at 0x7f4146e00f40 of size 64
+==17==AddressSanitizer: failed to intercept '__isoc23_strtol'
+==17==Registered root region at 0x7f4146e00f40 of size 64
+==17==Unregistered root region at 0x7f4146e00f40 of size 64
+==17==AddressSanitizer: failed to intercept '__isoc23_strtoll'
+==17==Registered root region at 0x7f4146e00f40 of size 64
+==17==Unregistered root region at 0x7f4146e00f40 of size 64
+==17==AddressSanitizer: failed to intercept '__cxa_throw'
+==17==Registered root region at 0x7f4146c01310 of size 80
+==17==Unregistered root region at 0x7f4146c01310 of size 80
+==17==AddressSanitizer: failed to intercept '__cxa_rethrow_primary_exception'
+==17==AddressSanitizer: libc interceptors initialized
+|| `[0x10007fff8000, 0x7fffffffffff]` || HighMem    ||
+|| `[0x02008fff7000, 0x10007fff7fff]` || HighShadow ||
+|| `[0x00008fff7000, 0x02008fff6fff]` || ShadowGap  ||
+|| `[0x00007fff8000, 0x00008fff6fff]` || LowShadow  ||
+|| `[0x000000000000, 0x00007fff7fff]` || LowMem     ||
+MemToShadow(shadow): 0x00008fff7000 0x000091ff6dff 0x004091ff6e00 0x02008fff6fff
+redzone=16
+max_redzone=2048
+quarantine_size_mb=10M
+thread_local_quarantine_size_kb=1024K
+malloc_context_size=30
+SHADOW_SCALE: 3
+SHADOW_GRANULARITY: 8
+SHADOW_OFFSET: 0x7fff8000
+==17==Installed the sigaction for signal 11
+==17==Installed the sigaction for signal 7
+==17==Installed the sigaction for signal 6
+==17==Installed the sigaction for signal 8
+==17==Installed the sigaction for signal 4
+==17==T0: FakeStack created: 0x7f41477cc000 -- 0x7f414787d800 stack_size_log: 16; mmapped 710K, noreserve=0 
+==17==T0: stack [0x7ffe16637000,0x7ffe16e37000) size 0x800000; local=0x7ffe16e351d4
+==17==AddressSanitizer Init done
+fuzz_command_parser: WARNING!!! Running this program as superuser is strongly not recommended, as it may pose serious security threat to your system. Use -u option to run as an unprivileged user or -F to surpress this warning.
+==17==T1: FakeStack created: 0x7f414713d000 -- 0x7f41471ee800 stack_size_log: 16; mmapped 710K, noreserve=0 
+==17==T1: stack [0x7f4144a01000,0x7f41451fff40) size 0x7fef40; local=0x7f41451ffd94
+==17==T2: FakeStack created: 0x7f4146f4e000 -- 0x7f4146fff800 stack_size_log: 16; mmapped 710K, noreserve=0 
+==17==T2: stack [0x7f4144001000,0x7f41447fff40) size 0x7fef40; local=0x7f41447ffd94
+==17==T4: FakeStack created: 0x7f4146d4e000 -- 0x7f4146dff800 stack_size_log: 16; mmapped 710K, noreserve=0 
+==17==T4: stack [0x7f4142c01000,0x7f41433fff40) size 0x7fef40; local=0x7f41433ffd94
+==17==T3: FakeStack created: 0x7f41459ae000 -- 0x7f4145a5f800 stack_size_log: 16; mmapped 710K, noreserve=0 
+==17==T3: stack [0x7f4143601000,0x7f4143dfff40) size 0x7fef40; local=0x7f4143dffd94
+==17==T5: FakeStack created: 0x7f414574e000 -- 0x7f41457ff800 stack_size_log: 16; mmapped 710K, noreserve=0 
+==17==T5: stack [0x7f4142201000,0x7f41429fff40) size 0x7fef40; local=0x7f41429ffd94
+==17==T6: FakeStack created: 0x7f414554e000 -- 0x7f41455ff800 stack_size_log: 16; mmapped 710K, noreserve=0 
+==17==T6: stack [0x7f4141801000,0x7f4141ffff40) size 0x7fef40; local=0x7f4141fffd94
+==17==T7: FakeStack created: 0x7f414534e000 -- 0x7f41453ff800 stack_size_log: 16; mmapped 710K, noreserve=0 
+==17==T7: stack [0x7f4140e01000,0x7f41415fff40) size 0x7fef40; local=0x7f41415ffd94
+==17==T9: FakeStack created: 0x7f414494e000 -- 0x7f41449ff800 stack_size_log: 16; mmapped 710K, noreserve=0 
+==17==T9: stack [0x7f413fa01000,0x7f41401fff40) size 0x7fef40; local=0x7f41401ffd94
+==17==T10: FakeStack created: 0x7f414489c000 -- 0x7f414494d800 stack_size_log: 16; mmapped 710K, noreserve=0 
+==17==T10: stack [0x7f413f001000,0x7f413f7fff40) size 0x7fef40; local=0x7f413f7ffd94
+==17==T8: FakeStack created: 0x7f414529c000 -- 0x7f414534d800 stack_size_log: 16; mmapped 710K, noreserve=0 
+==17==T8: stack [0x7f4140401000,0x7f4140bfff40) size 0x7fef40; local=0x7f4140bffd94
+==17==T11: FakeStack created: 0x7f4143f4e000 -- 0x7f4143fff800 stack_size_log: 16; mmapped 710K, noreserve=0 
+==17==T11: stack [0x7f413e601000,0x7f413edfff40) size 0x7fef40; local=0x7f413edffd94
+==17==T12: FakeStack created: 0x7f4143e9c000 -- 0x7f4143f4d800 stack_size_log: 16; mmapped 710K, noreserve=0 
+==17==T12: stack [0x7f413dc01000,0x7f413e3fff40) size 0x7fef40; local=0x7f413e3ffd94
+==17==T14: FakeStack created: 0x7f414354e000 -- 0x7f41435ff800 stack_size_log: 16; mmapped 710K, noreserve=0 
+==17==T14: stack [0x7f413c801000,0x7f413cffff40) size 0x7fef40; local=0x7f413cfffd94
+Dictionary: 76 entries
+==17==T13: FakeStack created: 0x7f414349c000 -- 0x7f414354d800 stack_size_log: 16; mmapped 710K, noreserve=0 
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 4076286760
+==17==T13: stack [0x7f413d201000,0x7f413d9fff40) size 0x7fef40; local=0x7f413d9ffd94
+INFO: Loaded 1 modules   (67428 inline 8-bit counters): 67428 [0x55787567b9f0, 0x55787568c154), 
+INFO: Loaded 1 PC tables (67428 PCs): 67428 [0x55787568c158,0x557875793798), 
+/out/fuzz_command_parser: Running 1 inputs 100 time(s) each.
+Running: /testcase
+==17==T15: FakeStack created: 0x7f4142b4e000 -- 0x7f4142bff800 stack_size_log: 16; mmapped 710K, noreserve=0 
+==17==T15: stack [0x7f413a401000,0x7f413abfff40) size 0x7fef40; local=0x7f413abffd94
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+[1m[31m==17==ERROR: AddressSanitizer: ABRT on unknown address 0x000000000011 (pc 0x7f41478ff00b bp 0x7ffe16e34930 sp 0x7ffe16e345b0 T0)
+[1m[0mSCARINESS: 10 (signal)
+    #0 0x7f41478ff00b in raise (/lib/x86_64-linux-gnu/libc.so.6+0x4300b) (BuildId: 0323ab4806bee6f846d9ad4bccfc29afdca49a58)
+    #1 0x7f41478de858 in abort (/lib/x86_64-linux-gnu/libc.so.6+0x22858) (BuildId: 0323ab4806bee6f846d9ad4bccfc29afdca49a58)
+    #2 0x557875513eb9 in dbg_printf /src/rtpproxy/libre/rtpp_re_dbg.c:45:9
+    #3 0x557875510ba4 in rtpp_cand_decode /src/rtpproxy/libre/rtpp_re_icesdp.c:59:3
+    #4 0x55787550fb83 in ice_lite_candidate /src/rtpproxy/modules/ice_lite/rtpp_ice_lite.c:370:15
+    #5 0x55787550fb83 in rtpp_ice_lite_handle_command /src/rtpproxy/modules/ice_lite/rtpp_ice_lite.c:614:13
+    #6 0x5578755f5695 in rtpp_command_ul_handle /src/rtpproxy/src/../src/commands/rpcpv1_ul.c:686:28
+    #7 0x5578756081a3 in handle_command /src/rtpproxy/src/rtpp_command.c:718:2
+    #8 0x5578756184b4 in ExecuteRTPPCommand /src/rtpproxy/scripts/fuzz/fuzz_rtpp_utils.h:135:16
+    #9 0x5578756184b4 in LLVMFuzzerTestOneInput /src/rtpproxy/scripts/fuzz/fuzz_command_parser.c:15:5
+    #10 0x557874f27820 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:614:13
+    #11 0x557874f11e45 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:327:6
+    #12 0x557874f178df in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
+    #13 0x557874f437d2 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
+    #14 0x7f41478e0082 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x24082) (BuildId: 0323ab4806bee6f846d9ad4bccfc29afdca49a58)
+    #15 0x557874f0a02d in _start (/out/fuzz_command_parser+0x47402d)
+
+DEDUP_TOKEN: raise--abort--dbg_printf
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: ABRT (/lib/x86_64-linux-gnu/libc.so.6+0x4300b) (BuildId: 0323ab4806bee6f846d9ad4bccfc29afdca49a58) in raise
+==17==ABORTING
+MS: 0 ; base unit: 0000000000000000000000000000000000000000
+stat::number_of_executed_units: 1
+stat::average_exec_per_sec:     1
+stat::new_units_added:          0
+stat::slowest_unit_time_sec:    0
+stat::peak_rss_mb:              49
+INFO:__main__:Running: docker run --privileged --shm-size=2g --platform linux/amd64 --rm -i -e HELPER=True -e ARCHITECTURE=x86_64 -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/rtpproxy:/out -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/rtpproxy/testcase/testcase_42538137:/testcase -t gcr.io/oss-fuzz-base/base-runner reproduce fuzz_command_parser -runs=100.
+
+==================================================
+PoC Triggered: YES

@@ -1,0 +1,38 @@
+tittle:boost-beast:http_response: Abrt in __cxxabiv1::failed_throw
+status:Verified
+type:Bug
+commit_url:https://github.com/boostorg/boost/commit/41c4d0619002f48bc0e9bfa1a403ef04a557bd5c
+commit_url_new:https://github.com/boostorg/boost/commit/https://github.com/boostorg/boost/commit/41c4d0619002f48bc0e9bfa1a403ef04a557bd5c
+module:boost-beast
+target:http_response
+have 1 changed files:['jump get_diff!']
+==================================================
++ FUZZER=http_response
++ shift
++ '[' '!' -v TESTCASE ']'
++ TESTCASE=/testcase
++ '[' '!' -f /testcase ']'
++ export RUN_FUZZER_MODE=interactive
++ RUN_FUZZER_MODE=interactive
++ export FUZZING_ENGINE=libfuzzer
++ FUZZING_ENGINE=libfuzzer
++ export SKIP_SEED_CORPUS=1
++ SKIP_SEED_CORPUS=1
++ run_fuzzer http_response -runs=100 /testcase
+vm.mmap_rnd_bits = 28
+/out/http_response -rss_limit_mb=2560 -timeout=25 -runs=100 /testcase < /dev/null
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 778718868
+INFO: Loaded 1 modules   (3645 inline 8-bit counters): 3645 [0x558f85203390, 0x558f852041cd), 
+INFO: Loaded 1 PC tables (3645 PCs): 3645 [0x558f852041d0,0x558f852125a0), 
+/out/http_response: Running 1 inputs 100 time(s) each.
+Running: /testcase
+Executed /testcase in 404 ms
+***
+*** NOTE: fuzzing was not performed, you have only
+***       executed the target code on a fixed set of inputs.
+***
+INFO:__main__:Running: docker run --privileged --shm-size=2g --platform linux/amd64 --rm -i -e HELPER=True -e ARCHITECTURE=x86_64 -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/boost-beast:/out -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/boost-beast/testcase/testcase_42537916:/testcase -t gcr.io/oss-fuzz-base/base-runner reproduce http_response -runs=100.
+
+==================================================
+PoC Triggered: NO

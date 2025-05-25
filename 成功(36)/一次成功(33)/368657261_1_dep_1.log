@@ -1,0 +1,44 @@
+tittle:protocompile:fuzz_protocompile: Timeout in fuzz_protocompile
+status:Verified
+type:Bug
+commit_url:https://github.com/bufbuild/protocompile/commit/ed4d675274431444f0d4be033ac117b90233098c
+commit_url_new:https://github.com/bufbuild/protocompile/commit/https://github.com/bufbuild/protocompile/commit/ed4d675274431444f0d4be033ac117b90233098c
+module:protocompile
+target:fuzz_protocompile
+have 1 changed files:['jump get_diff!']
+==================================================
++ FUZZER=fuzz_protocompile
++ shift
++ '[' '!' -v TESTCASE ']'
++ TESTCASE=/testcase
++ '[' '!' -f /testcase ']'
++ export RUN_FUZZER_MODE=interactive
++ RUN_FUZZER_MODE=interactive
++ export FUZZING_ENGINE=libfuzzer
++ FUZZING_ENGINE=libfuzzer
++ export SKIP_SEED_CORPUS=1
++ SKIP_SEED_CORPUS=1
++ run_fuzzer fuzz_protocompile -runs=100 /testcase
+vm.mmap_rnd_bits = 28
+/out/fuzz_protocompile -rss_limit_mb=2560 -timeout=25 -runs=100 /testcase < /dev/null
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 86088288
+INFO: Loaded 1 modules   (33418 inline 8-bit counters): 33418 [0x55b81d0db6c0, 0x55b81d0e394a), 
+INFO: Loaded 1 PC tables (33418 PCs): 33418 [0x10c000080000,0x10c0001028a0), 
+/out/fuzz_protocompile: Running 1 inputs 100 time(s) each.
+Running: /testcase
+ALARM: working on the last Unit for 25 seconds
+       and the timeout value is 25 (use -timeout=N to change)
+==14== ERROR: libFuzzer: timeout after 25 seconds
+    #0 0x55b81bf6dae1 in __sanitizer_print_stack_trace /src/llvm-project/compiler-rt/lib/asan/asan_stack.cpp:87:3
+    #1 0x55b81be72a78 in fuzzer::PrintStackTrace() /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerUtil.cpp:210:5
+    #2 0x55b81be55d87 in fuzzer::Fuzzer::AlarmCallback() /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:304:5
+    #3 0x7fec6dba241f  (/lib/x86_64-linux-gnu/libpthread.so.0+0x1441f) (BuildId: 5cfb896dd40f90aa8c6c8bb856004d1f5cfe293c)
+    #4 0x55b81c016302 in runtime.futex.abi0 runtime/sys_linux_amd64.s:557
+
+DEDUP_TOKEN: __sanitizer_print_stack_trace--fuzzer::PrintStackTrace()--fuzzer::Fuzzer::AlarmCallback()
+SUMMARY: libFuzzer: timeout
+INFO:__main__:Running: docker run --privileged --shm-size=2g --platform linux/amd64 --rm -i -e HELPER=True -e ARCHITECTURE=x86_64 -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/protocompile:/out -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/protocompile/testcase/testcase_368657261:/testcase -t gcr.io/oss-fuzz-base/base-runner reproduce fuzz_protocompile -runs=100.
+
+==================================================
+PoC Triggered: YES

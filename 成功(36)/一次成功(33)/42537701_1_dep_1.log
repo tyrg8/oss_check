@@ -1,0 +1,49 @@
+tittle:unit:fuzz_http_h1p_peer: Null-dereference in nxt_h1p_peer_transfer_encoding
+status:Verified
+type:Bug
+commit_url:https://github.com/nginx/unit/commit/35a572c2813ed2cae6af2282cb361e901a79934d
+commit_url_new:https://github.com/nginx/unit/commit/https://github.com/nginx/unit/commit/35a572c2813ed2cae6af2282cb361e901a79934d
+module:unit
+target:fuzz_http_h1p_peer
+have 1 changed files:['jump get_diff!']
+==================================================
+error running command: python infra/helper.py reproduce unit fuzz_http_h1p_peer build/out/unit/testcase/testcase_42537701
++ FUZZER=fuzz_http_h1p_peer
++ shift
++ '[' '!' -v TESTCASE ']'
++ TESTCASE=/testcase
++ '[' '!' -f /testcase ']'
++ export RUN_FUZZER_MODE=interactive
++ RUN_FUZZER_MODE=interactive
++ export FUZZING_ENGINE=libfuzzer
++ FUZZING_ENGINE=libfuzzer
++ export SKIP_SEED_CORPUS=1
++ SKIP_SEED_CORPUS=1
++ run_fuzzer fuzz_http_h1p_peer -runs=100 /testcase
+vm.mmap_rnd_bits = 28
+/out/fuzz_http_h1p_peer -rss_limit_mb=2560 -timeout=25 -runs=100 /testcase -dict=fuzz_http_h1p_peer.dict < /dev/null
+Dictionary: 38 entries
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 4292347239
+INFO: Loaded 1 modules   (16887 inline 8-bit counters): 16887 [0x5595a7650c10, 0x5595a7654e07), 
+INFO: Loaded 1 PC tables (16887 PCs): 16887 [0x5595a7654e08,0x5595a7696d78), 
+/out/fuzz_http_h1p_peer: Running 1 inputs 100 time(s) each.
+Running: /testcase
+[1msrc/nxt_h1proto.c:2947:18:[1m[31m runtime error: [1m[0m[1mmember access within null pointer of type 'nxt_http_peer_t'[1m[0m
+    #0 0x5595a751ff70 in nxt_h1p_peer_transfer_encoding /src/unit/src/nxt_h1proto.c:2947:18
+    #1 0x5595a75525e3 in nxt_http_field_process /src/unit/src/nxt_http_parse.h:155:12
+    #2 0x5595a75525e3 in nxt_http_fields_process /src/unit/src/nxt_http_parse.c:1261:15
+    #3 0x5595a751f865 in LLVMFuzzerTestOneInput /src/unit/fuzzing/nxt_http_h1p_peer_fuzz.c:79:5
+    #4 0x5595a747ee00 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:614:13
+    #5 0x5595a746a075 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:327:6
+    #6 0x5595a746fb0f in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
+    #7 0x5595a749adb2 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
+    #8 0x7f40c8654082 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x24082) (BuildId: 0323ab4806bee6f846d9ad4bccfc29afdca49a58)
+    #9 0x5595a746225d in _start (/out/fuzz_http_h1p_peer+0xc725d)
+
+DEDUP_TOKEN: nxt_h1p_peer_transfer_encoding--nxt_http_field_process--nxt_http_fields_process
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior src/nxt_h1proto.c:2947:18 
+INFO:__main__:Running: docker run --privileged --shm-size=2g --platform linux/amd64 --rm -i -e HELPER=True -e ARCHITECTURE=x86_64 -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/unit:/out -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/unit/testcase/testcase_42537701:/testcase -t gcr.io/oss-fuzz-base/base-runner reproduce fuzz_http_h1p_peer -runs=100.
+
+==================================================
+PoC Triggered: YES

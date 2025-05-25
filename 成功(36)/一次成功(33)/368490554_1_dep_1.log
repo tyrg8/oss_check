@@ -1,0 +1,63 @@
+tittle:gpac:fuzz_m2ts_probe: Out-of-memory in fuzz_m2ts_probe
+status:Verified
+type:Bug
+commit_url:https://github.com/gpac/gpac/commit/1bf9c1a890eef45dffecbc1c5dbe92cdee4e31d7
+commit_url_new:https://github.com/gpac/gpac/commit/ccc6a76a67e08814e20ca678b84899653102b1f5
+module:gpac
+target:fuzz_m2ts_probe
+have 1 changed files:['jump get_diff!']
+==================================================
+error running command: python infra/helper.py reproduce gpac fuzz_m2ts_probe build/out/gpac/testcase/testcase_368490554
++ FUZZER=fuzz_m2ts_probe
++ shift
++ '[' '!' -v TESTCASE ']'
++ TESTCASE=/testcase
++ '[' '!' -f /testcase ']'
++ export RUN_FUZZER_MODE=interactive
++ RUN_FUZZER_MODE=interactive
++ export FUZZING_ENGINE=libfuzzer
++ FUZZING_ENGINE=libfuzzer
++ export SKIP_SEED_CORPUS=1
++ SKIP_SEED_CORPUS=1
++ run_fuzzer fuzz_m2ts_probe -runs=100 /testcase
+vm.mmap_rnd_bits = 28
+/out/fuzz_m2ts_probe -rss_limit_mb=2560 -timeout=25 -runs=100 /testcase < /dev/null
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 2838698837
+INFO: Loaded 1 modules   (242425 inline 8-bit counters): 242425 [0x5617809fa620, 0x561780a35919), 
+INFO: Loaded 1 PC tables (242425 PCs): 242425 [0x561780a35920,0x561780de88b0), 
+/out/fuzz_m2ts_probe: Running 1 inputs 100 time(s) each.
+Running: /testcase
+==13== ERROR: libFuzzer: out-of-memory (malloc(4294967292))
+   To change the out-of-memory limit use -rss_limit_mb=<N>
+
+    #0 0x56177f3303a1 in __sanitizer_print_stack_trace /src/llvm-project/compiler-rt/lib/asan/asan_stack.cpp:87:3
+    #1 0x56177f235338 in fuzzer::PrintStackTrace() /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerUtil.cpp:210:5
+    #2 0x56177f217881 in fuzzer::Fuzzer::HandleMalloc(unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:131:3
+    #3 0x56177f21779b in fuzzer::MallocHook(void const volatile*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:100:6
+    #4 0x56177f337a92 in __sanitizer::RunMallocHooks(void*, unsigned long) /src/llvm-project/compiler-rt/lib/sanitizer_common/sanitizer_common.cpp:346:5
+    #5 0x56177f28f58e in __asan::Allocator::Allocate(unsigned long, unsigned long, __sanitizer::BufferedStackTrace*, __asan::AllocType, bool) /src/llvm-project/compiler-rt/lib/asan/asan_allocator.cpp:658:5
+    #6 0x56177f28eec3 in __asan::asan_malloc(unsigned long, __sanitizer::BufferedStackTrace*) /src/llvm-project/compiler-rt/lib/asan/asan_allocator.cpp:1000:34
+    #7 0x56177f325a0f in malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:69:10
+    #8 0x56177f37e021 in gf_m2ts_read_metadata_pointer_descriptor /src/gpac/src/media_tools/mpegts.c:1032:21
+    #9 0x56177f378c99 in gf_m2ts_process_pmt /src/gpac/src/media_tools/mpegts.c:1189:14
+    #10 0x56177f3779f6 in gf_m2ts_section_complete /src/gpac/src/media_tools/mpegts.c:571:7
+    #11 0x56177f374a06 in gf_m2ts_gather_section /src/gpac/src/media_tools/mpegts.c:705:2
+    #12 0x56177f36a77b in gf_m2ts_process_packet /src/gpac/src/media_tools/mpegts.c:2711:17
+    #13 0x56177f3687be in gf_m2ts_process_data /src/gpac/src/media_tools/mpegts.c:2803:18
+    #14 0x56177f371318 in gf_m2ts_probe_buffer /src/gpac/src/media_tools/mpegts.c:3189:6
+    #15 0x56177f37127a in gf_m2ts_probe_file /src/gpac/src/media_tools/mpegts.c:3235:9
+    #16 0x56177f3651bd in LLVMFuzzerTestOneInput /src/gpac/testsuite/oss-fuzzers/fuzz_m2ts_probe.c:16:3
+    #17 0x56177f219be0 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:614:13
+    #18 0x56177f204e55 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:327:6
+    #19 0x56177f20a8ef in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
+    #20 0x56177f235b92 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
+    #21 0x7f3fb579d082 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x24082) (BuildId: 0323ab4806bee6f846d9ad4bccfc29afdca49a58)
+    #22 0x56177f1fd03d in _start (/out/fuzz_m2ts_probe+0x87803d)
+
+DEDUP_TOKEN: __sanitizer_print_stack_trace--fuzzer::PrintStackTrace()--fuzzer::Fuzzer::HandleMalloc(unsigned long)
+SUMMARY: libFuzzer: out-of-memory
+INFO:__main__:Running: docker run --privileged --shm-size=2g --platform linux/amd64 --rm -i -e HELPER=True -e ARCHITECTURE=x86_64 -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/gpac:/out -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/gpac/testcase/testcase_368490554:/testcase -t gcr.io/oss-fuzz-base/base-runner reproduce fuzz_m2ts_probe -runs=100.
+
+==================================================
+PoC Triggered: YES

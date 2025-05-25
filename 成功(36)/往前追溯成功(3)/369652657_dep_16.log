@@ -1,0 +1,38 @@
+tittle:libultrahdr:ultrahdr_enc_fuzzer: Use-of-uninitialized-value in ultrahdr::uhdr_gainmap_metadata_frac::encodeGainmapMetadata
+status:Verified
+type:Vulnerability
+commit_url:https://github.com/google/libultrahdr/commit/2188c35c95aee9c66ede526ab1c8187a3bc82416
+commit_url_new:https://github.com/google/libultrahdr/commit/5e7cedab7afec3dc8c8fdaa81f99a13e4850b8a0
+module:libultrahdr
+target:ultrahdr_enc_fuzzer
+have 1 changed files:['jump get_diff!']
+==================================================
++ FUZZER=ultrahdr_enc_fuzzer
++ shift
++ '[' '!' -v TESTCASE ']'
++ TESTCASE=/testcase
++ '[' '!' -f /testcase ']'
++ export RUN_FUZZER_MODE=interactive
++ RUN_FUZZER_MODE=interactive
++ export FUZZING_ENGINE=libfuzzer
++ FUZZING_ENGINE=libfuzzer
++ export SKIP_SEED_CORPUS=1
++ SKIP_SEED_CORPUS=1
++ run_fuzzer ultrahdr_enc_fuzzer -runs=100 /testcase
+vm.mmap_rnd_bits = 28
+/out/ultrahdr_enc_fuzzer -rss_limit_mb=2560 -timeout=25 -runs=100 /testcase < /dev/null
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 1183672675
+INFO: Loaded 1 modules   (21886 inline 8-bit counters): 21886 [0x5580e5577d00, 0x5580e557d27e), 
+INFO: Loaded 1 PC tables (21886 PCs): 21886 [0x5580e557d280,0x5580e55d2a60), 
+/out/ultrahdr_enc_fuzzer: Running 1 inputs 100 time(s) each.
+Running: /testcase
+Executed /testcase in 279209 ms
+***
+*** NOTE: fuzzing was not performed, you have only
+***       executed the target code on a fixed set of inputs.
+***
+INFO:__main__:Running: docker run --privileged --shm-size=2g --platform linux/amd64 --rm -i -e HELPER=True -e ARCHITECTURE=x86_64 -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/libultrahdr:/out -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/libultrahdr/testcase/testcase_369652657:/testcase -t gcr.io/oss-fuzz-base/base-runner reproduce ultrahdr_enc_fuzzer -runs=100.
+
+==================================================
+PoC Triggered: NO

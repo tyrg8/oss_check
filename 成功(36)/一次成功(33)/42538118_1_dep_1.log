@@ -1,0 +1,55 @@
+tittle:libucl:ucl_add_string_fuzzer: Abrt in ucl_hash_destroy
+status:Verified
+type:Bug
+commit_url:https://github.com/vstakhov/libucl/commit/5c58d0d5b939daf6f0c389e15019319f138636c2
+commit_url_new:https://github.com/vstakhov/libucl/commit/https://github.com/vstakhov/libucl/commit/5c58d0d5b939daf6f0c389e15019319f138636c2
+module:libucl
+target:ucl_add_string_fuzzer
+have 1 changed files:['jump get_diff!']
+==================================================
+error running command: python infra/helper.py reproduce libucl ucl_add_string_fuzzer build/out/libucl/testcase/testcase_42538118
++ FUZZER=ucl_add_string_fuzzer
++ shift
++ '[' '!' -v TESTCASE ']'
++ TESTCASE=/testcase
++ '[' '!' -f /testcase ']'
++ export RUN_FUZZER_MODE=interactive
++ RUN_FUZZER_MODE=interactive
++ export FUZZING_ENGINE=libfuzzer
++ FUZZING_ENGINE=libfuzzer
++ export SKIP_SEED_CORPUS=1
++ SKIP_SEED_CORPUS=1
++ run_fuzzer ucl_add_string_fuzzer -runs=100 /testcase
+vm.mmap_rnd_bits = 28
+/out/ucl_add_string_fuzzer -rss_limit_mb=2560 -timeout=25 -runs=100 /testcase -detect_leaks=0 < /dev/null
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 100435346
+INFO: Loaded 1 modules   (5233 inline 8-bit counters): 5233 [0x55e1b2aaeb78, 0x55e1b2aaffe9), 
+INFO: Loaded 1 PC tables (5233 PCs): 5233 [0x55e1b2aafff0,0x55e1b2ac4700), 
+/out/ucl_add_string_fuzzer: Running 1 inputs 100 time(s) each.
+Running: /testcase
+[1mucl_hash.c:273:30:[1m[31m runtime error: [1m[0m[1mmember access within null pointer of type 'struct ucl_hash_elt'[1m[0m
+    #0 0x55e1b2a23c74 in ucl_hash_destroy /src/libucl/src/ucl_hash.c:273:30
+    #1 0x55e1b2a0fe2c in ucl_object_free_internal /src/libucl/src/ucl_util.c:281:5
+    #2 0x55e1b2a113ea in ucl_parser_free /src/libucl/src/ucl_util.c:644:3
+    #3 0x55e1b2a09a7b in ucl_parse_macro_arguments /src/libucl/src/ucl_parser.c:2385:4
+    #4 0x55e1b2a09a7b in ucl_state_machine /src/libucl/src/ucl_parser.c:2650:18
+    #5 0x55e1b2a04b47 in ucl_parser_add_chunk_full /src/libucl/src/ucl_parser.c:3051:12
+    #6 0x55e1b2a089af in ucl_parser_add_chunk /src/libucl/src/ucl_parser.c:3098:9
+    #7 0x55e1b2a089af in ucl_parse_macro_arguments /src/libucl/src/ucl_parser.c:2378:9
+    #8 0x55e1b2a089af in ucl_state_machine /src/libucl/src/ucl_parser.c:2650:18
+    #9 0x55e1b2a04b47 in ucl_parser_add_chunk_full /src/libucl/src/ucl_parser.c:3051:12
+    #10 0x55e1b2a0021d in LLVMFuzzerTestOneInput /src/libucl/tests/fuzzers/ucl_add_string_fuzzer.c:17:2
+    #11 0x55e1b29627d0 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:614:13
+    #12 0x55e1b294da45 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:327:6
+    #13 0x55e1b29534df in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
+    #14 0x55e1b297e782 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
+    #15 0x7f5b06552082 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x24082) (BuildId: 0323ab4806bee6f846d9ad4bccfc29afdca49a58)
+    #16 0x55e1b2945c2d in _start (/out/ucl_add_string_fuzzer+0x4ec2d)
+
+DEDUP_TOKEN: ucl_hash_destroy--ucl_object_free_internal--ucl_parser_free
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ucl_hash.c:273:30 
+INFO:__main__:Running: docker run --privileged --shm-size=2g --platform linux/amd64 --rm -i -e HELPER=True -e ARCHITECTURE=x86_64 -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/libucl:/out -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/libucl/testcase/testcase_42538118:/testcase -t gcr.io/oss-fuzz-base/base-runner reproduce ucl_add_string_fuzzer -runs=100.
+
+==================================================
+PoC Triggered: YES

@@ -1,0 +1,53 @@
+tittle:icu:calendar_fuzzer: Integer-overflow in icu_76::CECalendar::jdToCE
+status:Verified
+type:Bug
+commit_url:https://github.com/unicode-org/icu/commit/939f08f2743dc7ec752e3a74758ccde0bb7a91d4
+commit_url_new:https://github.com/unicode-org/icu/commit/b24b251bca2f4decd0d25ece718e9adeaa63c468
+module:icu
+target:calendar_fuzzer
+have 1 changed files:['jump get_diff!']
+==================================================
+error running command: python infra/helper.py reproduce icu calendar_fuzzer build/out/icu/testcase/testcase_42538227
++ FUZZER=calendar_fuzzer
++ shift
++ '[' '!' -v TESTCASE ']'
++ TESTCASE=/testcase
++ '[' '!' -f /testcase ']'
++ export RUN_FUZZER_MODE=interactive
++ RUN_FUZZER_MODE=interactive
++ export FUZZING_ENGINE=libfuzzer
++ FUZZING_ENGINE=libfuzzer
++ export SKIP_SEED_CORPUS=1
++ SKIP_SEED_CORPUS=1
++ run_fuzzer calendar_fuzzer -runs=100 /testcase
+vm.mmap_rnd_bits = 28
+/out/calendar_fuzzer -rss_limit_mb=2560 -timeout=25 -runs=100 /testcase < /dev/null
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 841023025
+INFO: Loaded 1 modules   (92151 inline 8-bit counters): 92151 [0x55e9c30093a0, 0x55e9c301fb97), 
+INFO: Loaded 1 PC tables (92151 PCs): 92151 [0x55e9c301fb98,0x55e9c3187b08), 
+/out/calendar_fuzzer: Running 1 inputs 100 time(s) each.
+Running: /testcase
+locale = en_DE@calendar=coptic
+set(20, -2147456654)
+roll(23, 6910543)
+[1m/src/icu/icu4c/source/i18n/gregoimp.h:312:18:[1m[31m runtime error: [1m[0m[1msigned integer overflow: -2147456654 - 2440588 cannot be represented in type 'int'[1m[0m
+    #0 0x55e9c0c4cf87 in julianDayToMillis /src/icu/icu4c/source/i18n/gregoimp.h:312:18
+    #1 0x55e9c0c4cf87 in icu_75::Calendar::computeTime(UErrorCode&) /src/icu/icu4c/source/i18n/calendar.cpp:3107:21
+    #2 0x55e9c0c3be7d in icu_75::Calendar::updateTime(UErrorCode&) /src/icu/icu4c/source/i18n/calendar.cpp:4104:5
+    #3 0x55e9c0c3c74b in icu_75::Calendar::complete(UErrorCode&) /src/icu/icu4c/source/i18n/calendar.cpp:1351:9
+    #4 0x55e9c0c42e61 in icu_75::Calendar::roll(UCalendarDateFields, int, UErrorCode&) /src/icu/icu4c/source/i18n/calendar.cpp:1738:5
+    #5 0x55e9c0c30ba9 in LLVMFuzzerTestOneInput /src/icu/icu4c/source/test/fuzzer/calendar_fuzzer.cpp
+    #6 0x55e9c0b91b50 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:614:13
+    #7 0x55e9c0b7cdc5 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:327:6
+    #8 0x55e9c0b8285f in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
+    #9 0x55e9c0badb02 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
+    #10 0x7f5a10795082 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x24082) (BuildId: 0323ab4806bee6f846d9ad4bccfc29afdca49a58)
+    #11 0x55e9c0b74fad in _start (/out/calendar_fuzzer+0x40efad)
+
+DEDUP_TOKEN: julianDayToMillis--icu_75::Calendar::computeTime(UErrorCode&)--icu_75::Calendar::updateTime(UErrorCode&)
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior /src/icu/icu4c/source/i18n/gregoimp.h:312:18 
+INFO:__main__:Running: docker run --privileged --shm-size=2g --platform linux/amd64 --rm -i -e HELPER=True -e ARCHITECTURE=x86_64 -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/icu:/out -v /mnt/sdb/oss-fuzz/oss-fuzz/build/out/icu/testcase/testcase_42538227:/testcase -t gcr.io/oss-fuzz-base/base-runner reproduce calendar_fuzzer -runs=100.
+
+==================================================
+PoC Triggered: YES

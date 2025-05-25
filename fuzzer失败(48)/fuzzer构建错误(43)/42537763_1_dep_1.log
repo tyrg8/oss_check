@@ -1,0 +1,14 @@
+tittle:zeek:zeek-ldap_udp-fuzzer: ASSERT: (U)bits < (int)safeint_internal::int_traits< T >::bitCount
+status:Verified
+type:Bug
+commit_url:https://github.com/zeek/zeek/commit/25f65a705f3c0ac43679c5edbb3829af13db431d
+commit_url_new:https://github.com/zeek/zeek/commit/60bdaffe0b2c00fe0d22b8bb8702c88b2ba4f12a
+module:zeek
+target:zeek-ldap_udp-fuzzer
+have 1 changed files:['jump get_diff!']
+==================================================
+error running command: python infra/helper.py reproduce zeek zeek-ldap_udp-fuzzer build/out/zeek/testcase/testcase_42537763
+ERROR:__main__:zeek-ldap_udp-fuzzer does not seem to exist. Please run build_fuzzers first.
+
+==================================================
+PoC Triggered: YES
